@@ -1,0 +1,73 @@
+name: Deploy to Scaleway VPS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+        
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci --production
+        
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        script: |
+          # Arrêter le service
+          sudo systemctl stop kocal || true
+          
+          # Sauvegarder la base de données
+          cp /var/www/kocal/backend/subscribers.db /tmp/subscribers.db.backup || true
+          
+          # Mettre à jour le code
+          cd /var/www/kocal
+          git fetch origin
+          git reset --hard origin/main
+          
+          # Restaurer la base de données
+          cp /tmp/subscribers.db.backup /var/www/kocal/backend/subscribers.db || true
+          
+          # Installer les nouvelles dépendances
+          cd backend
+          npm ci --production
+          
+          # Redémarrer le service
+          sudo systemctl start kocal
+          sudo systemctl status kocal --no-pager
+          
+    - name: Test deployment
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        script: |
+          # Attendre que le service démarre
+          sleep 10
+          
+          # Tester l'API
+          curl -f http://localhost:3001/api/health || exit 1
+          
+          echo "✅ Déploiement réussi !"
