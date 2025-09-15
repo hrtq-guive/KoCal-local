@@ -1,0 +1,1306 @@
+{
+  "metadata": {
+    "title": "72 Micro-saisons japonaises (七十二候)",
+    "description": "Base de données des 72 kō du calendrier traditionnel japonais",
+    "version": "1.0.0",
+    "source": "Calendrier traditionnel japonais"
+  },
+  "microSeasons": [
+    {
+      "id": "seri-sunawachi-sakau",
+      "month": 1,
+      "day": 5,
+      "japanese": {
+        "kanji": "芹乃栄",
+        "romaji": "Seri sunawachi sakau"
+      },
+      "translations": {
+        "fr": "Le céleri d'eau prospère"
+      },
+      "sekki": {
+        "id": "shokan",
+        "name": "Shōkan",
+        "translation": "Petite froideur",
+        "position": 1
+      }
+    },
+    {
+      "id": "shimizu-ugoku",
+      "month": 1,
+      "day": 10,
+      "japanese": {
+        "kanji": "水泉動",
+        "romaji": "Shimizu ugoku"
+      },
+      "translations": {
+        "fr": "Les sources se remuent"
+      },
+      "sekki": {
+        "id": "shokan",
+        "name": "Shōkan",
+        "translation": "Petite froideur",
+        "position": 2
+      }
+    },
+    {
+      "id": "kiji-hajimete-naku",
+      "month": 1,
+      "day": 15,
+      "japanese": {
+        "kanji": "雉始雊",
+        "romaji": "Kiji hajimete naku"
+      },
+      "translations": {
+        "fr": "Les faisans commencent à appeler"
+      },
+      "sekki": {
+        "id": "shokan",
+        "name": "Shōkan",
+        "translation": "Petite froideur",
+        "position": 3
+      }
+    },
+    {
+      "id": "fukuki-hanasaku",
+      "month": 1,
+      "day": 20,
+      "japanese": {
+        "kanji": "款冬華",
+        "romaji": "Fukuki hanasaku"
+      },
+      "translations": {
+        "fr": "Les pétasites fleurissent"
+      },
+      "sekki": {
+        "id": "daikan",
+        "name": "Daikan",
+        "translation": "Grande froideur",
+        "position": 1
+      }
+    },
+    {
+      "id": "mizusawa-itatte-katashi",
+      "month": 1,
+      "day": 25,
+      "japanese": {
+        "kanji": "水沢腹堅",
+        "romaji": "Mizusawa itatte katashi"
+      },
+      "translations": {
+        "fr": "La glace épaissit sur les ruisseaux"
+      },
+      "sekki": {
+        "id": "daikan",
+        "name": "Daikan",
+        "translation": "Grande froideur",
+        "position": 2
+      }
+    },
+    {
+      "id": "niwatori-hajimete-to-ya-ni-tsuku",
+      "month": 1,
+      "day": 30,
+      "japanese": {
+        "kanji": "鶏始乳",
+        "romaji": "Niwatori hajimete to ya ni tsuku"
+      },
+      "translations": {
+        "fr": "Les poules recommencent à pondre"
+      },
+      "sekki": {
+        "id": "daikan",
+        "name": "Daikan",
+        "translation": "Grande froideur",
+        "position": 3
+      }
+    },
+    {
+      "id": "harukaze-kori-o-toku",
+      "month": 2,
+      "day": 4,
+      "japanese": {
+        "kanji": "東風解凍",
+        "romaji": "Harukaze kōri o toku"
+      },
+      "translations": {
+        "fr": "Le vent d'est fait fondre la glace"
+      },
+      "sekki": {
+        "id": "risshun",
+        "name": "Risshun",
+        "translation": "Début du printemps",
+        "position": 1
+      }
+    },
+    {
+      "id": "ougui-su-naku",
+      "month": 2,
+      "day": 9,
+      "japanese": {
+        "kanji": "黄鶯睍睆",
+        "romaji": "Ōuguisu naku"
+      },
+      "translations": {
+        "fr": "Les rossignols commencent à chanter"
+      },
+      "sekki": {
+        "id": "risshun",
+        "name": "Risshun",
+        "translation": "Début du printemps",
+        "position": 2
+      }
+    },
+    {
+      "id": "uo-kori-o-izuru",
+      "month": 2,
+      "day": 14,
+      "japanese": {
+        "kanji": "魚上氷",
+        "romaji": "Uo kōri o izuru"
+      },
+      "translations": {
+        "fr": "Les poissons sortent de la glace"
+      },
+      "sekki": {
+        "id": "risshun",
+        "name": "Risshun",
+        "translation": "Début du printemps",
+        "position": 3
+      }
+    },
+    {
+      "id": "tsuchi-uruoi-okoru",
+      "month": 2,
+      "day": 19,
+      "japanese": {
+        "kanji": "土脉潤起",
+        "romaji": "Tsuchi uruoi okoru"
+      },
+      "translations": {
+        "fr": "La terre s'humidifie"
+      },
+      "sekki": {
+        "id": "usui",
+        "name": "Usui",
+        "translation": "Eau de pluie",
+        "position": 1
+      }
+    },
+    {
+      "id": "kasumi-hajimete-tanabiku",
+      "month": 2,
+      "day": 24,
+      "japanese": {
+        "kanji": "霞始靆",
+        "romaji": "Kasumi hajimete tanabiku"
+      },
+      "translations": {
+        "fr": "Les brumes commencent à flotter"
+      },
+      "sekki": {
+        "id": "usui",
+        "name": "Usui",
+        "translation": "Eau de pluie",
+        "position": 2
+      }
+    },
+    {
+      "id": "somoku-mebae-izuru",
+      "month": 3,
+      "day": 1,
+      "japanese": {
+        "kanji": "草木萌動",
+        "romaji": "Sōmoku mebae izuru"
+      },
+      "translations": {
+        "fr": "Herbes et arbres bourgeonnent"
+      },
+      "sekki": {
+        "id": "usui",
+        "name": "Usui",
+        "translation": "Eau de pluie",
+        "position": 3
+      }
+    },
+    {
+      "id": "sugomori-mushi-to-o-hiraku",
+      "month": 3,
+      "day": 6,
+      "japanese": {
+        "kanji": "蟄虫啓戸",
+        "romaji": "Sugomori mushi to o hiraku"
+      },
+      "translations": {
+        "fr": "Les insectes sortent de torpeur"
+      },
+      "sekki": {
+        "id": "keichitsu",
+        "name": "Keichitsu",
+        "translation": "Réveil des insectes",
+        "position": 1
+      }
+    },
+    {
+      "id": "momo-hajimete-saku",
+      "month": 3,
+      "day": 11,
+      "japanese": {
+        "kanji": "桃始笑",
+        "romaji": "Momo hajimete saku"
+      },
+      "translations": {
+        "fr": "Les pêchers s'épanouissent"
+      },
+      "sekki": {
+        "id": "keichitsu",
+        "name": "Keichitsu",
+        "translation": "Réveil des insectes",
+        "position": 2
+      }
+    },
+    {
+      "id": "namushi-cho-to-naru",
+      "month": 3,
+      "day": 16,
+      "japanese": {
+        "kanji": "菜虫化蝶",
+        "romaji": "Namushi chō to naru"
+      },
+      "translations": {
+        "fr": "Les chenilles deviennent papillons"
+      },
+      "sekki": {
+        "id": "keichitsu",
+        "name": "Keichitsu",
+        "translation": "Réveil des insectes",
+        "position": 3
+      }
+    },
+    {
+      "id": "suzume-hajimete-suku",
+      "month": 3,
+      "day": 21,
+      "japanese": {
+        "kanji": "雀始巣",
+        "romaji": "Suzume hajimete suku"
+      },
+      "translations": {
+        "fr": "Les moineaux commencent leurs nids"
+      },
+      "sekki": {
+        "id": "shunbun",
+        "name": "Shunbun",
+        "translation": "Équinoxe de printemps",
+        "position": 1
+      }
+    },
+    {
+      "id": "sakura-hajimete-saku",
+      "month": 3,
+      "day": 26,
+      "japanese": {
+        "kanji": "桜始開",
+        "romaji": "Sakura hajimete saku"
+      },
+      "translations": {
+        "fr": "Les cerisiers s'ouvrent"
+      },
+      "sekki": {
+        "id": "shunbun",
+        "name": "Shunbun",
+        "translation": "Équinoxe de printemps",
+        "position": 2
+      }
+    },
+    {
+      "id": "kaminari-koe-o-hassu",
+      "month": 3,
+      "day": 31,
+      "japanese": {
+        "kanji": "雷乃発声",
+        "romaji": "Kaminari koe o hassu"
+      },
+      "translations": {
+        "fr": "Premier tonnerre"
+      },
+      "sekki": {
+        "id": "shunbun",
+        "name": "Shunbun",
+        "translation": "Équinoxe de printemps",
+        "position": 3
+      }
+    },
+    {
+      "id": "tsubame-kitaru",
+      "month": 4,
+      "day": 5,
+      "japanese": {
+        "kanji": "玄鳥至",
+        "romaji": "Tsubame kitaru"
+      },
+      "translations": {
+        "fr": "Les hirondelles reviennent"
+      },
+      "sekki": {
+        "id": "seimei",
+        "name": "Seimei",
+        "translation": "Pure clarté",
+        "position": 1
+      }
+    },
+    {
+      "id": "kogan-kaeru",
+      "month": 4,
+      "day": 10,
+      "japanese": {
+        "kanji": "鴻雁北",
+        "romaji": "Kōgan kaeru"
+      },
+      "translations": {
+        "fr": "Les oies sauvages repartent au nord"
+      },
+      "sekki": {
+        "id": "seimei",
+        "name": "Seimei",
+        "translation": "Pure clarté",
+        "position": 2
+      }
+    },
+    {
+      "id": "niji-hajimete-arawaru",
+      "month": 4,
+      "day": 15,
+      "japanese": {
+        "kanji": "虹始見",
+        "romaji": "Niji hajimete arawaru"
+      },
+      "translations": {
+        "fr": "Les premiers arcs‑en‑ciel paraissent"
+      },
+      "sekki": {
+        "id": "seimei",
+        "name": "Seimei",
+        "translation": "Pure clarté",
+        "position": 3
+      }
+    },
+    {
+      "id": "ashi-hajimete-shozu",
+      "month": 4,
+      "day": 20,
+      "japanese": {
+        "kanji": "葭始生",
+        "romaji": "Ashi hajimete shōzu"
+      },
+      "translations": {
+        "fr": "Les roseaux percent"
+      },
+      "sekki": {
+        "id": "kokuu",
+        "name": "Kokuu",
+        "translation": "Pluie des épis",
+        "position": 1
+      }
+    },
+    {
+      "id": "shimo-yamite-nae-izuru",
+      "month": 4,
+      "day": 25,
+      "japanese": {
+        "kanji": "霜止出苗",
+        "romaji": "Shimo yamite nae izuru"
+      },
+      "translations": {
+        "fr": "La gelée cesse ; les plants de riz sortent"
+      },
+      "sekki": {
+        "id": "kokuu",
+        "name": "Kokuu",
+        "translation": "Pluie des épis",
+        "position": 2
+      }
+    },
+    {
+      "id": "botan-hana-saku",
+      "month": 4,
+      "day": 30,
+      "japanese": {
+        "kanji": "牡丹華",
+        "romaji": "Botan hana saku"
+      },
+      "translations": {
+        "fr": "Les pivoines fleurissent"
+      },
+      "sekki": {
+        "id": "kokuu",
+        "name": "Kokuu",
+        "translation": "Pluie des épis",
+        "position": 3
+      }
+    },
+    {
+      "id": "kawazu-hajimete-naku",
+      "month": 5,
+      "day": 5,
+      "japanese": {
+        "kanji": "蛙始鳴",
+        "romaji": "Kawazu hajimete naku"
+      },
+      "translations": {
+        "fr": "Les grenouilles se mettent à chanter"
+      },
+      "sekki": {
+        "id": "rikka",
+        "name": "Rikka",
+        "translation": "Début de l'été",
+        "position": 1
+      }
+    },
+    {
+      "id": "mimizu-izuru",
+      "month": 5,
+      "day": 10,
+      "japanese": {
+        "kanji": "蚯蚓出",
+        "romaji": "Mimizu izuru"
+      },
+      "translations": {
+        "fr": "Les vers de terre émergent"
+      },
+      "sekki": {
+        "id": "rikka",
+        "name": "Rikka",
+        "translation": "Début de l'été",
+        "position": 2
+      }
+    },
+    {
+      "id": "takenoko-shozu",
+      "month": 5,
+      "day": 15,
+      "japanese": {
+        "kanji": "竹笋生",
+        "romaji": "Takenoko shōzu"
+      },
+      "translations": {
+        "fr": "Les pousses de bambou jaillissent"
+      },
+      "sekki": {
+        "id": "rikka",
+        "name": "Rikka",
+        "translation": "Début de l'été",
+        "position": 3
+      }
+    },
+    {
+      "id": "kaiko-okite-kusa-o-hamu",
+      "month": 5,
+      "day": 21,
+      "japanese": {
+        "kanji": "蚕起食桑",
+        "romaji": "Kaiko okite kusa o hamu"
+      },
+      "translations": {
+        "fr": "Les vers à soie mangent le mûrier"
+      },
+      "sekki": {
+        "id": "shoman",
+        "name": "Shōman",
+        "translation": "Petite plénitude",
+        "position": 1
+      }
+    },
+    {
+      "id": "benibana-sakau",
+      "month": 5,
+      "day": 26,
+      "japanese": {
+        "kanji": "紅花栄",
+        "romaji": "Benibana sakau"
+      },
+      "translations": {
+        "fr": "Les carthames s'épanouissent"
+      },
+      "sekki": {
+        "id": "shoman",
+        "name": "Shōman",
+        "translation": "Petite plénitude",
+        "position": 2
+      }
+    },
+    {
+      "id": "mugi-no-toki-itaru",
+      "month": 5,
+      "day": 31,
+      "japanese": {
+        "kanji": "麦秋至",
+        "romaji": "Mugi no toki itaru"
+      },
+      "translations": {
+        "fr": "Le blé arrive à maturité"
+      },
+      "sekki": {
+        "id": "shoman",
+        "name": "Shōman",
+        "translation": "Petite plénitude",
+        "position": 3
+      }
+    },
+    {
+      "id": "kamakiri-shozu",
+      "month": 6,
+      "day": 6,
+      "japanese": {
+        "kanji": "螳螂生",
+        "romaji": "Kamakiri shōzu"
+      },
+      "translations": {
+        "fr": "Éclosion des mantes religieuses"
+      },
+      "sekki": {
+        "id": "boshu",
+        "name": "Bōshu",
+        "translation": "Épis en barbe",
+        "position": 1
+      }
+    },
+    {
+      "id": "kusatta-kusa-hotaru-to-naru",
+      "month": 6,
+      "day": 11,
+      "japanese": {
+        "kanji": "腐草為蛍",
+        "romaji": "Kusatta kusa hotaru to naru"
+      },
+      "translations": {
+        "fr": "Des herbes montent les lucioles"
+      },
+      "sekki": {
+        "id": "boshu",
+        "name": "Bōshu",
+        "translation": "Épis en barbe",
+        "position": 2
+      }
+    },
+    {
+      "id": "ume-no-mi-kibamu",
+      "month": 6,
+      "day": 16,
+      "japanese": {
+        "kanji": "梅子黄",
+        "romaji": "Ume no mi kibamu"
+      },
+      "translations": {
+        "fr": "Les prunes jaunissent"
+      },
+      "sekki": {
+        "id": "boshu",
+        "name": "Bōshu",
+        "translation": "Épis en barbe",
+        "position": 3
+      }
+    },
+    {
+      "id": "natsukarekusa-karuru",
+      "month": 6,
+      "day": 21,
+      "japanese": {
+        "kanji": "乃東枯",
+        "romaji": "Natsukarekusa karuru"
+      },
+      "translations": {
+        "fr": "La brunelle se fane"
+      },
+      "sekki": {
+        "id": "geshi",
+        "name": "Geshi",
+        "translation": "Solstice d'été",
+        "position": 1
+      }
+    },
+    {
+      "id": "ayame-hana-saku",
+      "month": 6,
+      "day": 26,
+      "japanese": {
+        "kanji": "菖蒲華",
+        "romaji": "Ayame hana saku"
+      },
+      "translations": {
+        "fr": "Les iris fleurissent"
+      },
+      "sekki": {
+        "id": "geshi",
+        "name": "Geshi",
+        "translation": "Solstice d'été",
+        "position": 2
+      }
+    },
+    {
+      "id": "hange-shozu",
+      "month": 7,
+      "day": 1,
+      "japanese": {
+        "kanji": "半夏生",
+        "romaji": "Hange shōzu"
+      },
+      "translations": {
+        "fr": "La plante hange pousse"
+      },
+      "sekki": {
+        "id": "geshi",
+        "name": "Geshi",
+        "translation": "Solstice d'été",
+        "position": 3
+      }
+    },
+    {
+      "id": "atatakaki-kaze-itaru",
+      "month": 7,
+      "day": 7,
+      "japanese": {
+        "kanji": "温風至",
+        "romaji": "Atatakaki kaze itaru"
+      },
+      "translations": {
+        "fr": "Un vent tiède arrive"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shōsho",
+        "translation": "Petite chaleur",
+        "position": 1
+      }
+    },
+    {
+      "id": "hasu-hajimete-hiraku",
+      "month": 7,
+      "day": 12,
+      "japanese": {
+        "kanji": "蓮始開",
+        "romaji": "Hasu hajimete hiraku"
+      },
+      "translations": {
+        "fr": "Les lotus s'ouvrent"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shōsho",
+        "translation": "Petite chaleur",
+        "position": 2
+      }
+    },
+    {
+      "id": "taka-waza-o-narau",
+      "month": 7,
+      "day": 17,
+      "japanese": {
+        "kanji": "鷹乃学習",
+        "romaji": "Taka waza o narau"
+      },
+      "translations": {
+        "fr": "Les faucons apprennent la chasse"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shōsho",
+        "translation": "Petite chaleur",
+        "position": 3
+      }
+    },
+    {
+      "id": "kiri-hana-o-musubu",
+      "month": 7,
+      "day": 23,
+      "japanese": {
+        "kanji": "桐始結花",
+        "romaji": "Kiri hana o musubu"
+      },
+      "translations": {
+        "fr": "Le paulownia noue ses fruits"
+      },
+      "sekki": {
+        "id": "taisho",
+        "name": "Taisho",
+        "translation": "Grande chaleur",
+        "position": 1
+      }
+    },
+    {
+      "id": "tsuchi-uruote-mushi-atsushi",
+      "month": 7,
+      "day": 28,
+      "japanese": {
+        "kanji": "土潤溽暑",
+        "romaji": "Tsuchi uruōte mushi atsushi"
+      },
+      "translations": {
+        "fr": "La terre moite étouffe de chaleur"
+      },
+      "sekki": {
+        "id": "taisho",
+        "name": "Taisho",
+        "translation": "Grande chaleur",
+        "position": 2
+      }
+    },
+    {
+      "id": "taiu-tokidoki-furu",
+      "month": 8,
+      "day": 2,
+      "japanese": {
+        "kanji": "大雨時行",
+        "romaji": "Taiu tokidoki furu"
+      },
+      "translations": {
+        "fr": "De fortes pluies par moments"
+      },
+      "sekki": {
+        "id": "taisho",
+        "name": "Taisho",
+        "translation": "Grande chaleur",
+        "position": 3
+      }
+    },
+    {
+      "id": "suzukaze-itaru",
+      "month": 8,
+      "day": 8,
+      "japanese": {
+        "kanji": "涼風至",
+        "romaji": "Suzukaze itaru"
+      },
+      "translations": {
+        "fr": "Un vent frais arrive"
+      },
+      "sekki": {
+        "id": "risshu",
+        "name": "Risshū",
+        "translation": "Début de l'automne",
+        "position": 1
+      }
+    },
+    {
+      "id": "higurashi-naku",
+      "month": 8,
+      "day": 13,
+      "japanese": {
+        "kanji": "寒蝉鳴",
+        "romaji": "Higurashi naku"
+      },
+      "translations": {
+        "fr": "Chant des cigales d'automne"
+      },
+      "sekki": {
+        "id": "risshu",
+        "name": "Risshū",
+        "translation": "Début de l'automne",
+        "position": 2
+      }
+    },
+    {
+      "id": "fukakiri-shoko-su",
+      "month": 8,
+      "day": 18,
+      "japanese": {
+        "kanji": "蒙霧升降",
+        "romaji": "Fukakiri shōkō su"
+      },
+      "translations": {
+        "fr": "Épaisses brumes qui montent et descendent"
+      },
+      "sekki": {
+        "id": "risshu",
+        "name": "Risshū",
+        "translation": "Début de l'automne",
+        "position": 3
+      }
+    },
+    {
+      "id": "wata-no-hana-shibe-hiraku",
+      "month": 8,
+      "day": 23,
+      "japanese": {
+        "kanji": "綿柎開",
+        "romaji": "Wata no hana shibe hiraku"
+      },
+      "translations": {
+        "fr": "Les capsules du coton s'ouvrent"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shosho",
+        "translation": "Fin des grandes chaleurs",
+        "position": 1
+      }
+    },
+    {
+      "id": "tenchi-hajimete-samushi",
+      "month": 8,
+      "day": 28,
+      "japanese": {
+        "kanji": "天地始粛",
+        "romaji": "Tenchi hajimete samushi"
+      },
+      "translations": {
+        "fr": "La chaleur se retire"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shosho",
+        "translation": "Fin des grandes chaleurs",
+        "position": 2
+      }
+    },
+    {
+      "id": "kokumono-sunawachi-minoru",
+      "month": 9,
+      "day": 2,
+      "japanese": {
+        "kanji": "禾乃登",
+        "romaji": "Kokumono sunawachi minoru"
+      },
+      "translations": {
+        "fr": "Les céréales mûrissent"
+      },
+      "sekki": {
+        "id": "shosho",
+        "name": "Shosho",
+        "translation": "Fin des grandes chaleurs",
+        "position": 3
+      }
+    },
+    {
+      "id": "kusa-no-tsuyu-shiroshi",
+      "month": 9,
+      "day": 8,
+      "japanese": {
+        "kanji": "草露白",
+        "romaji": "Kusa no tsuyu shiroshi"
+      },
+      "translations": {
+        "fr": "La rosée blanchit l'herbe"
+      },
+      "sekki": {
+        "id": "hakuro",
+        "name": "Hakuro",
+        "translation": "Rosée blanche",
+        "position": 1
+      }
+    },
+    {
+      "id": "sekirei-naku",
+      "month": 9,
+      "day": 13,
+      "japanese": {
+        "kanji": "鶺鴒鳴",
+        "romaji": "Sekirei naku"
+      },
+      "translations": {
+        "fr": "Les bergeronnettes chantent"
+      },
+      "sekki": {
+        "id": "hakuro",
+        "name": "Hakuro",
+        "translation": "Rosée blanche",
+        "position": 2
+      }
+    },
+    {
+      "id": "tsubame-saru",
+      "month": 9,
+      "day": 18,
+      "japanese": {
+        "kanji": "玄鳥去",
+        "romaji": "Tsubame saru"
+      },
+      "translations": {
+        "fr": "Les hirondelles s'en vont"
+      },
+      "sekki": {
+        "id": "hakuro",
+        "name": "Hakuro",
+        "translation": "Rosée blanche",
+        "position": 3
+      }
+    },
+    {
+      "id": "kaminari-koe-o-osamu",
+      "month": 9,
+      "day": 23,
+      "japanese": {
+        "kanji": "雷乃収声",
+        "romaji": "Kaminari koe o osamu"
+      },
+      "translations": {
+        "fr": "Le tonnerre se retire"
+      },
+      "sekki": {
+        "id": "shubun",
+        "name": "Shūbun",
+        "translation": "Équinoxe d'automne",
+        "position": 1
+      }
+    },
+    {
+      "id": "mushi-kakure-to-o-fusagu",
+      "month": 9,
+      "day": 28,
+      "japanese": {
+        "kanji": "蟄虫坏戸",
+        "romaji": "Mushi kakure to o fusagu"
+      },
+      "translations": {
+        "fr": "Les insectes ferment leurs portes"
+      },
+      "sekki": {
+        "id": "shubun",
+        "name": "Shūbun",
+        "translation": "Équinoxe d'automne",
+        "position": 2
+      }
+    },
+    {
+      "id": "mizu-hajimete-karuru",
+      "month": 10,
+      "day": 3,
+      "japanese": {
+        "kanji": "水始涸",
+        "romaji": "Mizu hajimete karuru"
+      },
+      "translations": {
+        "fr": "Les eaux commencent à baisser"
+      },
+      "sekki": {
+        "id": "shubun",
+        "name": "Shūbun",
+        "translation": "Équinoxe d'automne",
+        "position": 3
+      }
+    },
+    {
+      "id": "kogan-kitaru",
+      "month": 10,
+      "day": 8,
+      "japanese": {
+        "kanji": "鴻雁来",
+        "romaji": "Kōgan kitaru"
+      },
+      "translations": {
+        "fr": "Arrivée des oies sauvages"
+      },
+      "sekki": {
+        "id": "kanro",
+        "name": "Kanro",
+        "translation": "Rosée froide",
+        "position": 1
+      }
+    },
+    {
+      "id": "kiku-no-hana-hiraku",
+      "month": 10,
+      "day": 13,
+      "japanese": {
+        "kanji": "菊花開",
+        "romaji": "Kiku no hana hiraku"
+      },
+      "translations": {
+        "fr": "Les chrysanthèmes s'ouvrent"
+      },
+      "sekki": {
+        "id": "kanro",
+        "name": "Kanro",
+        "translation": "Rosée froide",
+        "position": 2
+      }
+    },
+    {
+      "id": "kirigirisu-to-ni-ari",
+      "month": 10,
+      "day": 18,
+      "japanese": {
+        "kanji": "蟋蟀在戸",
+        "romaji": "Kirigirisu to ni ari"
+      },
+      "translations": {
+        "fr": "Les grillons chantent au seuil"
+      },
+      "sekki": {
+        "id": "kanro",
+        "name": "Kanro",
+        "translation": "Rosée froide",
+        "position": 3
+      }
+    },
+    {
+      "id": "shimo-hajimete-furu",
+      "month": 10,
+      "day": 23,
+      "japanese": {
+        "kanji": "霜始降",
+        "romaji": "Shimo hajimete furu"
+      },
+      "translations": {
+        "fr": "Première gelée"
+      },
+      "sekki": {
+        "id": "soko",
+        "name": "Sōkō",
+        "translation": "Descente du givre",
+        "position": 1
+      }
+    },
+    {
+      "id": "shigure-tokidoki-furu",
+      "month": 10,
+      "day": 28,
+      "japanese": {
+        "kanji": "霎時施",
+        "romaji": "Shigure tokidoki furu"
+      },
+      "translations": {
+        "fr": "Averses passagères"
+      },
+      "sekki": {
+        "id": "soko",
+        "name": "Sōkō",
+        "translation": "Descente du givre",
+        "position": 2
+      }
+    },
+    {
+      "id": "momiji-tsuta-kibamu",
+      "month": 11,
+      "day": 2,
+      "japanese": {
+        "kanji": "楓蔦黄",
+        "romaji": "Momiji tsuta kibamu"
+      },
+      "translations": {
+        "fr": "Érables et lierres jaunissent"
+      },
+      "sekki": {
+        "id": "soko",
+        "name": "Sōkō",
+        "translation": "Descente du givre",
+        "position": 3
+      }
+    },
+    {
+      "id": "tsubaki-hajimete-hiraku",
+      "month": 11,
+      "day": 7,
+      "japanese": {
+        "kanji": "山茶始開",
+        "romaji": "Tsubaki hajimete hiraku"
+      },
+      "translations": {
+        "fr": "Les camélias s'ouvrent"
+      },
+      "sekki": {
+        "id": "ritto",
+        "name": "Rittō",
+        "translation": "Début de l'hiver",
+        "position": 1
+      }
+    },
+    {
+      "id": "chi-hajimete-koru",
+      "month": 11,
+      "day": 12,
+      "japanese": {
+        "kanji": "地始凍",
+        "romaji": "Chi hajimete kōru"
+      },
+      "translations": {
+        "fr": "La terre commence à geler"
+      },
+      "sekki": {
+        "id": "ritto",
+        "name": "Rittō",
+        "translation": "Début de l'hiver",
+        "position": 2
+      }
+    },
+    {
+      "id": "kinsenka-kaoru",
+      "month": 11,
+      "day": 17,
+      "japanese": {
+        "kanji": "金盞香",
+        "romaji": "Kinsenka kaoru"
+      },
+      "translations": {
+        "fr": "Les narcisses embaument"
+      },
+      "sekki": {
+        "id": "ritto",
+        "name": "Rittō",
+        "translation": "Début de l'hiver",
+        "position": 3
+      }
+    },
+    {
+      "id": "niji-kakurete-miezu",
+      "month": 11,
+      "day": 22,
+      "japanese": {
+        "kanji": "虹蔵不見",
+        "romaji": "Niji kakurete miezu"
+      },
+      "translations": {
+        "fr": "Les arcs‑en‑ciel se cachent"
+      },
+      "sekki": {
+        "id": "shosetsu",
+        "name": "Shōsetsu",
+        "translation": "Petite neige",
+        "position": 1
+      }
+    },
+    {
+      "id": "kitakaze-konoha-o-harau",
+      "month": 11,
+      "day": 27,
+      "japanese": {
+        "kanji": "朔風払葉",
+        "romaji": "Kitakaze konoha o harau"
+      },
+      "translations": {
+        "fr": "Le vent du nord balaie les feuilles"
+      },
+      "sekki": {
+        "id": "shosetsu",
+        "name": "Shōsetsu",
+        "translation": "Petite neige",
+        "position": 2
+      }
+    },
+    {
+      "id": "tachibana-hajimete-kibamu",
+      "month": 12,
+      "day": 2,
+      "japanese": {
+        "kanji": "橘始黄",
+        "romaji": "Tachibana hajimete kibamu"
+      },
+      "translations": {
+        "fr": "Les feuilles de citrus jaunissent"
+      },
+      "sekki": {
+        "id": "shosetsu",
+        "name": "Shōsetsu",
+        "translation": "Petite neige",
+        "position": 3
+      }
+    },
+    {
+      "id": "heisoku-narite-fuyu-to-naru",
+      "month": 12,
+      "day": 7,
+      "japanese": {
+        "kanji": "閉塞成冬",
+        "romaji": "Heisoku narite fuyu to naru"
+      },
+      "translations": {
+        "fr": "L'horizon se ferme : c'est l'hiver"
+      },
+      "sekki": {
+        "id": "taisetsu",
+        "name": "Taisetsu",
+        "translation": "Grande neige",
+        "position": 1
+      }
+    },
+    {
+      "id": "kuma-ana-ni-komoru",
+      "month": 12,
+      "day": 12,
+      "japanese": {
+        "kanji": "熊蟄穴",
+        "romaji": "Kuma ana ni komoru"
+      },
+      "translations": {
+        "fr": "Les ours gagnent leurs tanières"
+      },
+      "sekki": {
+        "id": "taisetsu",
+        "name": "Taisetsu",
+        "translation": "Grande neige",
+        "position": 2
+      }
+    },
+    {
+      "id": "sake-no-uo-muragaru",
+      "month": 12,
+      "day": 17,
+      "japanese": {
+        "kanji": "鱖魚群",
+        "romaji": "Sake no uo muragaru"
+      },
+      "translations": {
+        "fr": "Les saumons remontent en bancs"
+      },
+      "sekki": {
+        "id": "taisetsu",
+        "name": "Taisetsu",
+        "translation": "Grande neige",
+        "position": 3
+      }
+    },
+    {
+      "id": "natsukarekusa-shozu",
+      "month": 12,
+      "day": 22,
+      "japanese": {
+        "kanji": "乃東生",
+        "romaji": "Natsukarekusa shōzu"
+      },
+      "translations": {
+        "fr": "La brunelle reverdit"
+      },
+      "sekki": {
+        "id": "toji",
+        "name": "Tōji",
+        "translation": "Solstice d'hiver",
+        "position": 1
+      }
+    },
+    {
+      "id": "mishika-no-tsuno-oru",
+      "month": 12,
+      "day": 27,
+      "japanese": {
+        "kanji": "麋角解",
+        "romaji": "Mishika no tsuno oru"
+      },
+      "translations": {
+        "fr": "Les cervidés perdent leurs bois"
+      },
+      "sekki": {
+        "id": "toji",
+        "name": "Tōji",
+        "translation": "Solstice d'hiver",
+        "position": 2
+      }
+    },
+    {
+      "id": "yuki-shita-mugi-izuru",
+      "month": 1,
+      "day": 1,
+      "japanese": {
+        "kanji": "雪下出麦",
+        "romaji": "Yuki shita mugi izuru"
+      },
+      "translations": {
+        "fr": "Le blé pousse sous la neige"
+      },
+      "sekki": {
+        "id": "toji",
+        "name": "Tōji",
+        "translation": "Solstice d'hiver",
+        "position": 3
+      }
+    }
+  ]
+}
