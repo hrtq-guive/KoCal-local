@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Administration - KoCal</title>
+  <style>
+:root{ --ink:#3a3a3a; --muted:#8b8b8b; --bg:#fbfaf7; --danger:#dc2626; --success:#16a34a; }
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-size:2.5rem;margin:0 0 10px 0;color:var(--ink)}
+.header p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:40px}
+.stat-card{background:white;padding:20px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);text-align:center}
+.stat-number{font-size:2rem;font-weight:bold;color:var(--ink);margin:0}
+.stat-label{color:var(--muted);margin:5px 0 0 0;font-size:0.9rem}
+.actions{margin-bottom:30px;display:flex;gap:15px;flex-wrap:wrap}
+.btn{background:var(--ink);color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:14px;transition:opacity 0.2s}
+.btn:hover{opacity:0.8}
+.btn-danger{background:var(--danger)}
+.btn-success{background:var(--success)}
+.subscribers-table{background:white;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden}
+.table-header{background:#f8f9fa;padding:15px 20px;border-bottom:1px solid #e9ecef;font-weight:600}
+.table-content{max-height:500px;overflow-y:auto}
+.subscriber-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:20px;padding:15px 20px;border-bottom:1px solid #f1f3f4;align-items:center}
+.subscriber-row:last-child{border-bottom:none}
+.subscriber-row:hover{background:#f8f9fa}
+.phone{font-family:monospace;font-weight:500}
+.date{color:var(--muted);font-size:0.9rem}
+.status{display:inline-block;padding:4px 8px;border-radius:4px;font-size:0.8rem;font-weight:500}
+.status-active{background:#dcfce7;color:#166534}
+.status-inactive{background:#fee2e2;color:#991b1b}
+.delete-btn{background:var(--danger);color:white;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+.delete-btn:hover{opacity:0.8}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+.error{background:#fee2e2;color:#991b1b;padding:15px;border-radius:6px;margin-bottom:20px}
+.success{background:#dcfce7;color:#166534;padding:15px;border-radius:6px;margin-bottom:20px}
+@media (max-width:768px){
+  .subscriber-row{grid-template-columns:1fr;gap:10px;text-align:center}
+  .actions{flex-direction:column}
+  .container{padding:20px 15px}
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Administration KoCal</h1>
+      <p>Gestion des abonnés SMS</p>
+    </div>
+
+    <div id="message"></div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalSubscribers">-</div>
+        <div class="stat-label">Total abonnés</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="activeSubscribers">-</div>
+        <div class="stat-label">Abonnés actifs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="inactiveSubscribers">-</div>
+        <div class="stat-label">Abonnés inactifs</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="loadSubscribers()">🔄 Actualiser</button>
+      <button class="btn btn-success" onclick="sendTestNotification()">📱 Envoyer test</button>
+      <button class="btn btn-danger" onclick="deleteAllSubscribers()">🗑️ Supprimer tous</button>
+    </div>
+
+    <div class="subscribers-table">
+      <div class="table-header">
+        <div class="subscriber-row">
+          <div>Numéro de téléphone</div>
+          <div>Date d'inscription</div>
+          <div>Statut</div>
+          <div>Actions</div>
+        </div>
+      </div>
+      <div class="table-content" id="subscribersList">
+        <div class="loading">Chargement des abonnés...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Variables globales
+    let subscribers = [];
+
+    // Fonctions utilitaires
+    function showMessage(message, type = 'success') {
+      const messageEl = document.getElementById('message');
+      messageEl.innerHTML = `<div class="${type}">${message}</div>`;
+      setTimeout(() => {
+        messageEl.innerHTML = '';
+      }, 5000);
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Charger les abonnés
+    async function loadSubscribers() {
+      try {
+        const response = await fetch('/api/admin/subscribers');
+        const data = await response.json();
+        
+        if (data.subscribers) {
+          subscribers = data.subscribers;
+          displaySubscribers();
+          updateStats();
+        } else {
+          throw new Error('Erreur de chargement');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        showMessage('Erreur lors du chargement des abonnés', 'error');
+        document.getElementById('subscribersList').innerHTML = '<div class="loading">Erreur de chargement</div>';
+      }
+    }
+
+    // Afficher les abonnés
+    function displaySubscribers() {
+      const container = document.getElementById('subscribersList');
+      
+      if (subscribers.length === 0) {
+        container.innerHTML = '<div class="loading">Aucun abonné trouvé</div>';
+        return;
+      }
+
+      container.innerHTML = subscribers.map(sub => `
+        <div class="subscriber-row">
+          <div class="phone">${sub.phone_number}</div>
+          <div class="date">${formatDate(sub.created_at)}</div>
+          <div>
+            <span class="status ${sub.active ? 'status-active' : 'status-inactive'}">
+              ${sub.active ? 'Actif' : 'Inactif'}
+            </span>
+          </div>
+          <div>
+            <button class="delete-btn" onclick="deleteSubscriber(${sub.id})">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Mettre à jour les statistiques
+    function updateStats() {
+      const total = subscribers.length;
+      const active = subscribers.filter(s => s.active).length;
+      const inactive = total - active;
+
+      document.getElementById('totalSubscribers').textContent = total;
+      document.getElementById('activeSubscribers').textContent = active;
+      document.getElementById('inactiveSubscribers').textContent = inactive;
+    }
+
+    // Supprimer un abonné
+    async function deleteSubscriber(id) {
+      if (!confirm('Êtes-vous sûr de vouloir supprimer cet abonné ?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/admin/subscribers/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showMessage('Abonné supprimé avec succès');
+          loadSubscribers();
+        } else {
+          throw new Error(data.error || 'Erreur de suppression');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        showMessage('Erreur lors de la suppression', 'error');
+      }
+    }
+
+    // Supprimer tous les abonnés
+    async function deleteAllSubscribers() {
+      if (!confirm('Êtes-vous sûr de vouloir supprimer TOUS les abonnés ? Cette action est irréversible.')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/admin/subscribers', {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showMessage('Tous les abonnés ont été supprimés');
+          loadSubscribers();
+        } else {
+          throw new Error(data.error || 'Erreur de suppression');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        showMessage('Erreur lors de la suppression', 'error');
+      }
+    }
+
+    // Envoyer une notification de test
+    async function sendTestNotification() {
+      try {
+        const response = await fetch('/api/test-notification', {
+          method: 'POST'
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showMessage('Notification de test envoyée à tous les abonnés');
+        } else {
+          throw new Error(data.error || 'Erreur d\'envoi');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        showMessage('Erreur lors de l\'envoi de la notification', 'error');
+      }
+    }
+
+    // Charger les abonnés au démarrage
+    document.addEventListener('DOMContentLoaded', loadSubscribers);
+  </script>
+</body>
+</html>

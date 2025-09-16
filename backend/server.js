@@ -248,6 +248,38 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Routes d'administration
+app.get('/api/admin/subscribers', (req, res) => {
+  db.all('SELECT * FROM subscribers ORDER BY created_at DESC', [], (err, rows) => {
+    if (err) {
+      console.error('Erreur récupération abonnés:', err);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+    res.json({ subscribers: rows });
+  });
+});
+
+app.delete('/api/admin/subscribers/:id', (req, res) => {
+  const id = req.params.id;
+  db.run('DELETE FROM subscribers WHERE id = ?', [id], function(err) {
+    if (err) {
+      console.error('Erreur suppression abonné:', err);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+    res.json({ success: true, message: 'Abonné supprimé' });
+  });
+});
+
+app.delete('/api/admin/subscribers', (req, res) => {
+  db.run('DELETE FROM subscribers', [], function(err) {
+    if (err) {
+      console.error('Erreur suppression tous les abonnés:', err);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+    res.json({ success: true, message: 'Tous les abonnés supprimés' });
+  });
+});
+
 // Démarrer le serveur
 app.listen(PORT, () => {
   console.log(`🚀 Serveur démarré sur le port ${PORT}`);
