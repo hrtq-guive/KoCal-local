@@ -37,19 +37,40 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
 .loading{text-align:center;padding:40px;color:var(--muted)}
 .error{background:#fee2e2;color:#991b1b;padding:15px;border-radius:6px;margin-bottom:20px}
 .success{background:#dcfce7;color:#166534;padding:15px;border-radius:6px;margin-bottom:20px}
+.login-container{display:flex;justify-content:center;align-items:center;min-height:60vh}
+.login-box{background:white;padding:40px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-align:center;max-width:400px;width:100%}
+.login-box h2{margin:0 0 30px 0;color:var(--ink)}
+.login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:16px;margin-bottom:20px;box-sizing:border-box}
+.login-box button{width:100%;padding:12px;font-size:16px}
 @media (max-width:768px){
   .subscriber-row{grid-template-columns:1fr;gap:10px;text-align:center}
   .actions{flex-direction:column}
   .container{padding:20px 15px}
+  .login-box{padding:30px 20px}
 }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <h1>Administration KoCal</h1>
-      <p>Gestion des abonnés SMS</p>
+    <!-- Formulaire de connexion -->
+    <div id="loginForm" class="login-container">
+      <div class="login-box">
+        <h2>🔐 Connexion Administration</h2>
+        <form onsubmit="login(event)">
+          <input type="password" id="password" placeholder="Mot de passe" required>
+          <button type="submit" class="btn">Se connecter</button>
+        </form>
+        <div id="loginError" class="error" style="display:none;"></div>
+      </div>
     </div>
+
+    <!-- Interface d'administration (cachée par défaut) -->
+    <div id="adminInterface" style="display:none;">
+      <div class="header">
+        <h1>Administration KoCal</h1>
+        <p>Gestion des abonnés SMS</p>
+        <button class="btn btn-danger" onclick="logout()" style="margin-top:10px;">Se déconnecter</button>
+      </div>
 
     <div id="message"></div>
 
@@ -87,11 +108,39 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
         <div class="loading">Chargement des abonnés...</div>
       </div>
     </div>
+    </div>
   </div>
 
   <script>
     // Variables globales
     let subscribers = [];
+    const ADMIN_PASSWORD = 'Heretique!2020';
+
+    // Fonctions d'authentification
+    function login(event) {
+      event.preventDefault();
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('loginError');
+      
+      if (password === ADMIN_PASSWORD) {
+        // Connexion réussie
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('adminInterface').style.display = 'block';
+        loadSubscribers();
+      } else {
+        // Mot de passe incorrect
+        errorEl.textContent = 'Mot de passe incorrect';
+        errorEl.style.display = 'block';
+        document.getElementById('password').value = '';
+      }
+    }
+
+    function logout() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('adminInterface').style.display = 'none';
+      document.getElementById('password').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    }
 
     // Fonctions utilitaires
     function showMessage(message, type = 'success') {
@@ -238,8 +287,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
       }
     }
 
-    // Charger les abonnés au démarrage
-    document.addEventListener('DOMContentLoaded', loadSubscribers);
+    // Pas de chargement automatique - seulement après connexion
   </script>
 </body>
 </html>
