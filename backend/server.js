@@ -72,7 +72,7 @@ app.post('/api/subscribe', async (req, res) => {
         // Envoyer un SMS de bienvenue
         try {
           const currentSeason = getCurrentMicroSeason(new Date(), require('../data/micro-seasons.json').microSeasons);
-          const welcomeMessage = `72 kō par an, 72 textos par an. Pour l'instant profitons de la saison pendant laquelle ${currentSeason.translations.fr}.`;
+          const welcomeMessage = `72 kō par an, 72 textos par an. Bienvenue dans l'aventure Koyomi.heretique.fr ! Pour l'instant profitons de ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}.`;
           
           await sendSMS(normalizedPhone, welcomeMessage);
           console.log(`SMS de bienvenue envoyé à ${normalizedPhone}`);
@@ -165,7 +165,7 @@ async function checkMicroSeasonChange() {
     // Ici on pourrait comparer avec la dernière micro-saison envoyée
     // Pour simplifier, on envoie toujours la micro-saison actuelle
     
-    const message = `🌸 Aujourd'hui s'ouvre la micro-saison pendant laquelle ${currentSeason.translations.fr}.\n\n${currentSeason.japanese.kanji} (${currentSeason.japanese.romaji})\n\nDécouvrez plus sur kocal.fr`;
+    const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
     
     // Récupérer tous les abonnés actifs
     db.all('SELECT phone_number FROM subscribers WHERE active = 1', [], async (err, rows) => {
