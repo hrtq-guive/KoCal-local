@@ -81,7 +81,7 @@ app.post('/api/subscribe', async (req, res) => {
           // On continue même si le SMS de bienvenue échoue
         }
         
-        res.json({ success: true, message: 'Inscription réussie !' });
+        res.json({ success: true, message: 'Inscription réussie ! Vous devriez recevoir un SMS de bienvenue dans quelques instants.' });
       });
     });
     
