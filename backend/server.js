@@ -250,11 +250,13 @@ app.get('/api/health', (req, res) => {
 
 // Routes d'administration
 app.get('/api/admin/subscribers', (req, res) => {
+  console.log('🔍 Requête GET /api/admin/subscribers reçue');
   db.all('SELECT * FROM subscribers ORDER BY created_at DESC', [], (err, rows) => {
     if (err) {
       console.error('Erreur récupération abonnés:', err);
       return res.status(500).json({ error: 'Erreur serveur' });
     }
+    console.log(`📊 ${rows.length} abonnés trouvés`);
     res.json({ subscribers: rows });
   });
 });
