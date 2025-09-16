@@ -83,20 +83,24 @@
           $('fr').textContent = currentSeason.translations.fr;
           $('jp').textContent = currentSeason.japanese.kanji;
           $('romaji').textContent = currentSeason.japanese.romaji;
-          $('sekki').textContent = currentSeason.sekki.name + ' (' + currentSeason.sekki.translation + ')';
           
-          // Calculer la date de fin (prochaine micro-saison)
-          var nextSeason = getCurrentMicroSeason(new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000), data.microSeasons);
-          var endDate = new Date(now.getFullYear(), nextSeason.month - 1, nextSeason.day - 1);
+          // Calculer la date de fin (5 jours après le début de la micro-saison actuelle)
+          var currentStart = new Date(now.getFullYear(), currentSeason.month - 1, currentSeason.day);
+          var endDate = new Date(currentStart.getTime() + 4 * 24 * 60 * 60 * 1000); // 4 jours après le début = 5 jours au total
           
-          $('range').textContent = 'du ' + formatDateFR(now) + ' au ' + formatDateFR(endDate);
+          // Debug: afficher les dates dans la console
+          console.log('Date actuelle:', now);
+          console.log('Micro-saison actuelle:', currentSeason);
+          console.log('Début de la micro-saison:', currentStart);
+          console.log('Fin calculée:', endDate);
+          
+          $('range').textContent = 'du ' + formatDateFR(currentStart) + ' au ' + formatDateFR(endDate);
         })
         .catch(function(error) {
           console.error('Erreur:', error);
           $('fr').textContent = 'Erreur de chargement';
           $('jp').textContent = '—';
           $('romaji').textContent = '—';
-          $('sekki').textContent = '—';
           $('range').textContent = '—';
         });
     } catch (error) {

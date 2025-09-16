@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Servir les fichiers statiques du frontend
+app.use(express.static('../'));
+
 // Configuration Twilio (mode développement si pas configuré)
 let client = null;
 let devMode = false;
