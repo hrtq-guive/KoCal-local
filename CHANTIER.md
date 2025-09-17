@@ -1,6 +1,19 @@
-# 🚧 CHANTIER KoCal - Interface d'administration
+# 🚧 CHANTIER KoCal - Application des micro-saisons japonaises
 
 ## 📋 TODO LIST
+
+### ✅ RÉSOLU (Septembre 2025)
+- [x] **Correction de la logique d'envoi des SMS**
+  - [x] Suppression des SMS quotidiens (envoyés tous les jours à 8h)
+  - [x] Envoi uniquement le premier jour de chaque nouvelle micro-saison
+  - [x] Élimination des doublons avec système de tracking
+  - [x] Correction des dates des micro-saisons
+  - [x] Nettoyage du code pour la production
+
+- [x] **Suppression des références aux sekkis**
+  - [x] Suppression de l'affichage des sekkis sur le site
+  - [x] Réduction de la taille du nom des ko de 10%
+  - [x] Mise à jour des textes explicatifs
 
 ### 🔧 À faire
 - [ ] **Faire fonctionner la page admin**
@@ -29,7 +42,7 @@ KoCal-local/
 │   ├── package.json        # Dépendances Node.js
 │   ├── .env                # Configuration Twilio (PRODUCTION)
 │   ├── env.example         # Template de configuration
-│   └── subscribers.db      # Base SQLite des abonnés
+│   └── subscribers.db      # Base SQLite (abonnés + notifications)
 └── CHANTIER.md             # Ce fichier
 ```
 
@@ -100,6 +113,12 @@ sqlite3 subscribers.db "DELETE FROM subscribers;"
 
 # Voir les abonnés
 sqlite3 subscribers.db "SELECT * FROM subscribers;"
+
+# Voir l'historique des notifications
+sqlite3 subscribers.db "SELECT * FROM sent_notifications ORDER BY sent_at DESC;"
+
+# Vider l'historique des notifications (si nécessaire)
+sqlite3 subscribers.db "DELETE FROM sent_notifications;"
 ```
 
 ### Tests API
@@ -112,8 +131,8 @@ curl -X POST http://localhost:3001/api/subscribe \
   -H "Content-Type: application/json" \
   -d '{"phoneNumber":"+33627252432"}'
 
-# Test notification
-curl -X POST http://localhost:3001/api/test-notification
+# Voir l'historique des notifications
+curl http://localhost:3001/api/admin/notifications
 ```
 
 ## 🐛 PROBLÈMES CONNUS
@@ -129,18 +148,21 @@ curl -X POST http://localhost:3001/api/test-notification
 
 ### Messages SMS
 - **Format bienvenue** : ✅ Fonctionne
-- **Format changement** : ✅ Fonctionne
+- **Format changement** : ✅ Fonctionne (corrigé en septembre 2025)
 - **Twilio** : ✅ Configuré et opérationnel
+- **Envoi automatique** : ✅ Corrigé (plus de doublons, envoi uniquement au changement)
 
 ## 📱 FONCTIONNALITÉS OPÉRATIONNELLES
 
 ### ✅ Ce qui marche
-- Affichage des micro-saisons en temps réel
+- Affichage des micro-saisons en temps réel (sans références aux sekkis)
 - Inscription SMS avec validation
-- Envoi de SMS via Twilio
+- Envoi de SMS via Twilio (logique corrigée)
 - Messages personnalisés selon le format demandé
 - Service systemd avec redémarrage automatique
 - Interface responsive et élégante
+- Système de tracking des notifications (plus de doublons)
+- Envoi uniquement au changement de micro-saison
 
 ### ❌ Ce qui ne marche pas
 - Interface d'administration (routes API non accessibles)
@@ -154,6 +176,15 @@ curl -X POST http://localhost:3001/api/test-notification
 4. **Configurer le déploiement automatique** : Webhook GitHub + script de déploiement
 5. **Documenter le processus** : Pour les futurs déploiements
 
+## 📝 CHANGELOG
+
+### Septembre 2025
+- ✅ **Correction majeure** : Logique d'envoi des SMS automatiques
+- ✅ **Suppression** : Références aux sekkis sur le site
+- ✅ **Amélioration** : Réduction de la taille du nom des ko de 10%
+- ✅ **Ajout** : Système de tracking des notifications
+- ✅ **Correction** : Calcul des dates des micro-saisons
+
 ---
-*Dernière mise à jour : 16 septembre 2025*
-*Statut : Application fonctionnelle, interface admin à corriger*
+*Dernière mise à jour : 17 septembre 2025*
+*Statut : Application fonctionnelle, SMS corrigés, interface admin à corriger*
