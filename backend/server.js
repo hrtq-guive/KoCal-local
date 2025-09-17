@@ -30,13 +30,23 @@ if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_ACCOUNT_SID !== 'your_t
 // Base de données SQLite
 const db = new sqlite3.Database('./subscribers.db');
 
-// Créer la table des abonnés
+// Créer les tables
 db.serialize(() => {
+  // Table des abonnés
   db.run(`CREATE TABLE IF NOT EXISTS subscribers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     phone_number TEXT UNIQUE NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     active BOOLEAN DEFAULT 1
+  )`);
+  
+  // Table de tracking des SMS envoyés (pour éviter les doublons)
+  db.run(`CREATE TABLE IF NOT EXISTS sent_notifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    season_id TEXT NOT NULL,
+    season_date TEXT NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(season_id, season_date)
   )`);
 });
 
@@ -165,29 +175,66 @@ async function checkMicroSeasonChange() {
     const now = new Date();
     const currentSeason = getCurrentMicroSeason(now, microSeasons.microSeasons);
     
-    // Ici on pourrait comparer avec la dernière micro-saison envoyée
-    // Pour simplifier, on envoie toujours la micro-saison actuelle
+    // Vérifier si c'est le premier jour de cette micro-saison
+    const seasonStartDate = new Date(now.getFullYear(), currentSeason.month - 1, currentSeason.day);
+    const isFirstDay = now.getDate() === seasonStartDate.getDate() && 
+                      now.getMonth() === seasonStartDate.getMonth();
     
-    const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
+    if (!isFirstDay) {
+      console.log(`Pas le premier jour de ${currentSeason.japanese.romaji} (${currentSeason.month}/${currentSeason.day}), pas d'envoi de SMS`);
+      return;
+    }
     
-    // Récupérer tous les abonnés actifs
-    db.all('SELECT phone_number FROM subscribers WHERE active = 1', [], async (err, rows) => {
+    // Vérifier si on a déjà envoyé un SMS pour cette micro-saison
+    const seasonDate = `${currentSeason.month}-${currentSeason.day}`;
+    db.get('SELECT * FROM sent_notifications WHERE season_id = ? AND season_date = ?', 
+           [currentSeason.id, seasonDate], async (err, row) => {
       if (err) {
-        console.error('Erreur récupération abonnés:', err);
+        console.error('Erreur vérification notification:', err);
         return;
       }
       
-      console.log(`Envoi de ${rows.length} SMS...`);
-      
-      for (const row of rows) {
-        try {
-          await sendSMS(row.phone_number, message);
-          // Petite pause entre les envois pour éviter les limites de taux
-          await new Promise(resolve => setTimeout(resolve, 100));
-        } catch (error) {
-          console.error(`Erreur envoi à ${row.phone_number}:`, error.message);
-        }
+      if (row) {
+        console.log(`SMS déjà envoyé pour ${currentSeason.japanese.romaji} (${seasonDate})`);
+        return;
       }
+      
+      // Envoyer les SMS
+      const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
+      
+      // Récupérer tous les abonnés actifs
+      db.all('SELECT phone_number FROM subscribers WHERE active = 1', [], async (err, rows) => {
+        if (err) {
+          console.error('Erreur récupération abonnés:', err);
+          return;
+        }
+        
+        console.log(`Envoi de ${rows.length} SMS pour ${currentSeason.japanese.romaji}...`);
+        
+        let successCount = 0;
+        for (const row of rows) {
+          try {
+            await sendSMS(row.phone_number, message);
+            successCount++;
+            // Petite pause entre les envois pour éviter les limites de taux
+            await new Promise(resolve => setTimeout(resolve, 100));
+          } catch (error) {
+            console.error(`Erreur envoi à ${row.phone_number}:`, error.message);
+          }
+        }
+        
+        // Enregistrer que les SMS ont été envoyés pour cette micro-saison
+        if (successCount > 0) {
+          db.run('INSERT INTO sent_notifications (season_id, season_date) VALUES (?, ?)', 
+                 [currentSeason.id, seasonDate], function(err) {
+            if (err) {
+              console.error('Erreur enregistrement notification:', err);
+            } else {
+              console.log(`✅ ${successCount} SMS envoyés pour ${currentSeason.japanese.romaji}`);
+            }
+          });
+        }
+      });
     });
     
   } catch (error) {
@@ -283,6 +330,28 @@ app.delete('/api/admin/subscribers', (req, res) => {
     }
     res.json({ success: true, message: 'Tous les abonnés supprimés' });
   });
+});
+
+// Route pour voir l'historique des notifications
+app.get('/api/admin/notifications', (req, res) => {
+  db.all('SELECT * FROM sent_notifications ORDER BY sent_at DESC', [], (err, rows) => {
+    if (err) {
+      console.error('Erreur récupération notifications:', err);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+    res.json({ notifications: rows });
+  });
+});
+
+// Route pour forcer l'envoi d'une notification (pour les tests)
+app.post('/api/admin/force-notification', async (req, res) => {
+  try {
+    await checkMicroSeasonChange();
+    res.json({ success: true, message: 'Vérification des notifications effectuée' });
+  } catch (error) {
+    console.error('Erreur force notification:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
 });
 
 // Démarrer le serveur
