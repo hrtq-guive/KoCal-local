@@ -282,16 +282,6 @@ cron.schedule('0 8 * * *', () => {
   checkMicroSeasonChange();
 });
 
-// Route de test pour déclencher manuellement l'envoi
-app.post('/api/test-notification', async (req, res) => {
-  try {
-    await checkMicroSeasonChange();
-    res.json({ success: true, message: 'Notifications envoyées' });
-  } catch (error) {
-    console.error('Erreur test notification:', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
 
 // Route de santé
 app.get('/api/health', (req, res) => {
@@ -343,16 +333,6 @@ app.get('/api/admin/notifications', (req, res) => {
   });
 });
 
-// Route pour forcer l'envoi d'une notification (pour les tests)
-app.post('/api/admin/force-notification', async (req, res) => {
-  try {
-    await checkMicroSeasonChange();
-    res.json({ success: true, message: 'Vérification des notifications effectuée' });
-  } catch (error) {
-    console.error('Erreur force notification:', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
 
 // Démarrer le serveur
 app.listen(PORT, () => {
