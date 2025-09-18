@@ -348,6 +348,28 @@ app.get('/api/admin/notifications', (req, res) => {
   });
 });
 
+// Route pour envoyer des alertes SMS (utilisée par le monitoring)
+app.post('/api/alert', async (req, res) => {
+  try {
+    const { phoneNumber, message } = req.body;
+    
+    if (!phoneNumber || !message) {
+      return res.status(400).json({ error: 'Numéro de téléphone et message requis' });
+    }
+
+    const normalizedPhone = normalizePhoneNumber(phoneNumber);
+    const alertMessage = `🚨 KoCal Alert: ${message}`;
+    
+    await sendSMS(normalizedPhone, alertMessage);
+    console.log(`Alerte SMS envoyée à ${normalizedPhone}: ${message}`);
+    
+    res.json({ success: true, message: 'Alerte SMS envoyée' });
+  } catch (error) {
+    console.error('Erreur envoi alerte SMS:', error);
+    res.status(500).json({ error: 'Erreur envoi alerte' });
+  }
+});
+
 
 // Démarrer le serveur
 app.listen(PORT, () => {

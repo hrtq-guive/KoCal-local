@@ -19,6 +19,7 @@
   - [x] Rechargement dynamique du JSON (plus de cache Node.js)
   - [x] Élimination des problèmes de doublons SMS (PM2 vs systemd)
   - [x] Modifications des micro-saisons sans redémarrage serveur
+  - [x] Système de monitoring automatique avec alertes personnalisées
 
 ### 🔧 À faire
 - [ ] **Faire fonctionner la page admin**
@@ -39,7 +40,9 @@ KoCal-local/
 ├── index.html              # Page principale (micro-saisons)
 ├── admin.html              # Interface d'administration
 ├── scripts/
-│   └── app.js              # JavaScript frontend
+│   ├── app.js              # JavaScript frontend
+│   ├── health-check.sh     # Script de monitoring automatique
+│   └── setup-monitoring.sh # Installation du monitoring
 ├── data/
 │   └── micro-seasons.json  # Base de données des 72 micro-saisons
 ├── backend/
@@ -48,7 +51,9 @@ KoCal-local/
 │   ├── .env                # Configuration Twilio (PRODUCTION)
 │   ├── env.example         # Template de configuration
 │   └── subscribers.db      # Base SQLite (abonnés + notifications)
-└── CHANTIER.md             # Ce fichier
+├── logs/                   # Logs de monitoring (local)
+├── CHANTIER.md             # Ce fichier
+└── MONITORING.md           # Documentation du monitoring
 ```
 
 ### 🌐 Déploiement
@@ -56,6 +61,7 @@ KoCal-local/
 - **Backend** : Node.js (port 3001) → API REST
 - **Base de données** : SQLite (fichier local)
 - **SMS** : Twilio API
+- **Monitoring** : Script automatique + Cron job (toutes les heures)
 
 ### 🔗 URLs et accès
 - **Site principal** : https://koyomi.heretique.fr
@@ -138,6 +144,26 @@ curl -X POST http://localhost:3001/api/subscribe \
 
 # Voir l'historique des notifications
 curl http://localhost:3001/api/admin/notifications
+
+# Test alerte SMS (monitoring)
+curl -X POST http://localhost:3001/api/alert \
+  -H "Content-Type: application/json" \
+  -d '{"phoneNumber":"+33627252432","message":"Test alerte"}'
+```
+
+### Monitoring
+```bash
+# Test du script de monitoring
+./scripts/health-check.sh
+
+# Voir les logs de monitoring
+tail -f /var/log/kocal-health.log
+
+# Voir les erreurs uniquement
+grep "ERROR" /var/log/kocal-health.log
+
+# Configurer le monitoring sur le VPS
+sudo ./scripts/setup-monitoring.sh
 ```
 
 ## 🐛 PROBLÈMES CONNUS
@@ -168,6 +194,8 @@ curl http://localhost:3001/api/admin/notifications
 - Interface responsive et élégante
 - Système de tracking des notifications (plus de doublons)
 - Envoi uniquement au changement de micro-saison
+- Rechargement dynamique du JSON (plus de cache Node.js)
+- Système de monitoring automatique avec alertes personnalisées
 
 ### ❌ Ce qui ne marche pas
 - Interface d'administration (routes API non accessibles)
@@ -191,7 +219,8 @@ curl http://localhost:3001/api/admin/notifications
 - ✅ **Correction** : Calcul des dates des micro-saisons
 - ✅ **Amélioration** : Rechargement dynamique du JSON (plus de cache Node.js)
 - ✅ **Résolution** : Problème des doublons SMS (PM2 vs systemd)
+- ✅ **Monitoring** : Système de surveillance automatique avec alertes personnalisées
 
 ---
 *Dernière mise à jour : 18 septembre 2025*
-*Statut : Application fonctionnelle, SMS corrigés, rechargement dynamique implémenté, interface admin à corriger*
+*Statut : Application fonctionnelle, SMS corrigés, rechargement dynamique implémenté, monitoring automatique configuré, interface admin à corriger*
