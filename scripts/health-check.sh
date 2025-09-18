@@ -119,6 +119,8 @@ check_api() {
 
 # Vérification 4: Base de données
 check_database() {
+    # S'assurer qu'on est dans le bon répertoire
+    cd /opt/KoCal-local 2>/dev/null || true
     local db_path="./backend/subscribers.db"
     
     if [ -f "$db_path" ] && [ -r "$db_path" ]; then
