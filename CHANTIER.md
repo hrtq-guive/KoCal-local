@@ -15,6 +15,11 @@
   - [x] Réduction de la taille du nom des ko de 10%
   - [x] Mise à jour des textes explicatifs
 
+- [x] **Amélioration de la robustesse du système**
+  - [x] Rechargement dynamique du JSON (plus de cache Node.js)
+  - [x] Élimination des problèmes de doublons SMS (PM2 vs systemd)
+  - [x] Modifications des micro-saisons sans redémarrage serveur
+
 ### 🔧 À faire
 - [ ] **Faire fonctionner la page admin**
   - [ ] Diagnostiquer pourquoi `/api/admin/subscribers` ne répond pas
@@ -184,7 +189,9 @@ curl http://localhost:3001/api/admin/notifications
 - ✅ **Amélioration** : Réduction de la taille du nom des ko de 10%
 - ✅ **Ajout** : Système de tracking des notifications
 - ✅ **Correction** : Calcul des dates des micro-saisons
+- ✅ **Amélioration** : Rechargement dynamique du JSON (plus de cache Node.js)
+- ✅ **Résolution** : Problème des doublons SMS (PM2 vs systemd)
 
 ---
-*Dernière mise à jour : 17 septembre 2025*
-*Statut : Application fonctionnelle, SMS corrigés, interface admin à corriger*
+*Dernière mise à jour : 18 septembre 2025*
+*Statut : Application fonctionnelle, SMS corrigés, rechargement dynamique implémenté, interface admin à corriger*

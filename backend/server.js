@@ -3,6 +3,8 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const twilio = require('twilio');
 const cron = require('node-cron');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -29,6 +31,18 @@ if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_ACCOUNT_SID !== 'your_t
 
 // Base de données SQLite
 const db = new sqlite3.Database('./subscribers.db');
+
+// Fonction pour recharger les données des micro-saisons
+function loadMicroSeasons() {
+  try {
+    const filePath = path.join(__dirname, '../data/micro-seasons.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Erreur chargement micro-seasons.json:', error);
+    throw error;
+  }
+}
 
 // Créer les tables
 db.serialize(() => {
@@ -84,7 +98,8 @@ app.post('/api/subscribe', async (req, res) => {
         
         // Envoyer un SMS de bienvenue
         try {
-          const currentSeason = getCurrentMicroSeason(new Date(), require('../data/micro-seasons.json').microSeasons);
+          const microSeasonsData = loadMicroSeasons();
+          const currentSeason = getCurrentMicroSeason(new Date(), microSeasonsData.microSeasons);
           const welcomeMessage = `72 kō par an, 72 textos par an. Bienvenue dans l'aventure Koyomi.heretique.fr ! Pour l'instant profitons de ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}.`;
           
           await sendSMS(normalizedPhone, welcomeMessage);
@@ -168,12 +183,12 @@ async function sendSMS(phoneNumber, message) {
 // Fonction pour vérifier le changement de micro-saison
 async function checkMicroSeasonChange() {
   try {
-    // Charger les données des micro-saisons
-    const microSeasons = require('../data/micro-seasons.json');
+    // Charger les données des micro-saisons (rechargement dynamique)
+    const microSeasonsData = loadMicroSeasons();
     
     // Logique pour déterminer la micro-saison actuelle
     const now = new Date();
-    const currentSeason = getCurrentMicroSeason(now, microSeasons.microSeasons);
+    const currentSeason = getCurrentMicroSeason(now, microSeasonsData.microSeasons);
     
     // Vérifier si c'est le premier jour de cette micro-saison
     const seasonStartDate = new Date(now.getFullYear(), currentSeason.month - 1, currentSeason.day);
