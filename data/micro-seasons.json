@@ -15,7 +15,7 @@
         "romaji": "Seri sunawachi sakau"
       },
       "translations": {
-        "fr": "Le céleri d'eau prospère"
+        "fr": "Le céleri d'eau fleurit"
       },
       "sekki": {
         "id": "shokan",
@@ -33,7 +33,7 @@
         "romaji": "Shimizu ugoku"
       },
       "translations": {
-        "fr": "Les sources se remuent"
+        "fr": "Les sources se dégèlent"
       },
       "sekki": {
         "id": "shokan",
@@ -51,7 +51,7 @@
         "romaji": "Kiji hajimete naku"
       },
       "translations": {
-        "fr": "Les faisans commencent à appeler"
+        "fr": "Les faisans se remettent à chanter"
       },
       "sekki": {
         "id": "shokan",
@@ -69,7 +69,7 @@
         "romaji": "Fukuki hanasaku"
       },
       "translations": {
-        "fr": "Les pétasites fleurissent"
+        "fr": "Les pétasites bourgeonnent"
       },
       "sekki": {
         "id": "daikan",
@@ -141,7 +141,7 @@
         "romaji": "Ōuguisu naku"
       },
       "translations": {
-        "fr": "Les rossignols commencent à chanter"
+        "fr": "Les rossignols recommencent à chanter"
       },
       "sekki": {
         "id": "risshun",
@@ -159,7 +159,7 @@
         "romaji": "Uo kōri o izuru"
       },
       "translations": {
-        "fr": "Les poissons sortent de la glace"
+        "fr": "Les poissons jaillissent de la glace"
       },
       "sekki": {
         "id": "risshun",
@@ -177,7 +177,7 @@
         "romaji": "Tsuchi uruoi okoru"
       },
       "translations": {
-        "fr": "La terre s'humidifie"
+        "fr": "La pluie humidifie la terre"
       },
       "sekki": {
         "id": "usui",
@@ -195,7 +195,7 @@
         "romaji": "Kasumi hajimete tanabiku"
       },
       "translations": {
-        "fr": "Les brumes commencent à flotter"
+        "fr": "La brume commence à s'attarder"
       },
       "sekki": {
         "id": "usui",
@@ -213,7 +213,7 @@
         "romaji": "Sōmoku mebae izuru"
       },
       "translations": {
-        "fr": "Herbes et arbres bourgeonnent"
+        "fr": "L’herbe se remet à pousser, les arbres bourgeonnent."
       },
       "sekki": {
         "id": "usui",
@@ -231,7 +231,7 @@
         "romaji": "Sugomori mushi to o hiraku"
       },
       "translations": {
-        "fr": "Les insectes sortent de torpeur"
+        "fr": "Les insectes sortent de leur hibernation."
       },
       "sekki": {
         "id": "keichitsu",
@@ -249,7 +249,7 @@
         "romaji": "Momo hajimete saku"
       },
       "translations": {
-        "fr": "Les pêchers s'épanouissent"
+        "fr": "Les premiers pêchers fleurissent"
       },
       "sekki": {
         "id": "keichitsu",
@@ -303,7 +303,7 @@
         "romaji": "Sakura hajimete saku"
       },
       "translations": {
-        "fr": "Les cerisiers s'ouvrent"
+        "fr": "Les premiers cerisiers sont en fleur"
       },
       "sekki": {
         "id": "shunbun",
@@ -357,7 +357,7 @@
         "romaji": "Kōgan kaeru"
       },
       "translations": {
-        "fr": "Les oies sauvages repartent au nord"
+        "fr": "Les oies sauvages repartent vers le nord"
       },
       "sekki": {
         "id": "seimei",
@@ -375,7 +375,7 @@
         "romaji": "Niji hajimete arawaru"
       },
       "translations": {
-        "fr": "Les premiers arcs‑en‑ciel paraissent"
+        "fr": "Les premiers arcs‑en‑ciel apparaissent"
       },
       "sekki": {
         "id": "seimei",
@@ -393,7 +393,7 @@
         "romaji": "Ashi hajimete shōzu"
       },
       "translations": {
-        "fr": "Les roseaux percent"
+        "fr": "Les premiers roseaux poussent"
       },
       "sekki": {
         "id": "kokuu",
@@ -411,7 +411,7 @@
         "romaji": "Shimo yamite nae izuru"
       },
       "translations": {
-        "fr": "La gelée cesse ; les plants de riz sortent"
+        "fr": "Les derniers gels disparaissent et les jeunes plants de riz commencent à pousser."
       },
       "sekki": {
         "id": "kokuu",
@@ -465,7 +465,7 @@
         "romaji": "Mimizu izuru"
       },
       "translations": {
-        "fr": "Les vers de terre émergent"
+        "fr": "Les vers de terre refont surface"
       },
       "sekki": {
         "id": "rikka",
@@ -483,7 +483,7 @@
         "romaji": "Takenoko shōzu"
       },
       "translations": {
-        "fr": "Les pousses de bambou jaillissent"
+        "fr": "Les bambous poussent"
       },
       "sekki": {
         "id": "rikka",
@@ -501,7 +501,7 @@
         "romaji": "Kaiko okite kusa o hamu"
       },
       "translations": {
-        "fr": "Les vers à soie mangent le mûrier"
+        "fr": "Les vers à soie se régalent des feuilles de mûrier"
       },
       "sekki": {
         "id": "shoman",
@@ -519,7 +519,7 @@
         "romaji": "Benibana sakau"
       },
       "translations": {
-        "fr": "Les carthames s'épanouissent"
+        "fr": "Les carthames fleurissent"
       },
       "sekki": {
         "id": "shoman",
@@ -555,7 +555,7 @@
         "romaji": "Kamakiri shōzu"
       },
       "translations": {
-        "fr": "Éclosion des mantes religieuses"
+        "fr": "Les mantes religieuses sortent de l’œuf"
       },
       "sekki": {
         "id": "boshu",
@@ -573,7 +573,7 @@
         "romaji": "Kusatta kusa hotaru to naru"
       },
       "translations": {
-        "fr": "Des herbes montent les lucioles"
+        "fr": "Les herbes mortes renaissent en lucioles"
       },
       "sekki": {
         "id": "boshu",
@@ -645,7 +645,7 @@
         "romaji": "Hange shōzu"
       },
       "translations": {
-        "fr": "La plante hange pousse"
+        "fr": "La Pinellie ternée commence à germer"
       },
       "sekki": {
         "id": "geshi",
@@ -663,7 +663,7 @@
         "romaji": "Atatakaki kaze itaru"
       },
       "translations": {
-        "fr": "Un vent tiède arrive"
+        "fr": "Le vent chaud souffle de nouveau"
       },
       "sekki": {
         "id": "shosho",
@@ -681,7 +681,7 @@
         "romaji": "Hasu hajimete hiraku"
       },
       "translations": {
-        "fr": "Les lotus s'ouvrent"
+        "fr": "Les premiers lotus fleurissent"
       },
       "sekki": {
         "id": "shosho",
@@ -699,7 +699,7 @@
         "romaji": "Taka waza o narau"
       },
       "translations": {
-        "fr": "Les faucons apprennent la chasse"
+        "fr": "Les faucons apprennent à voler"
       },
       "sekki": {
         "id": "shosho",
@@ -717,7 +717,7 @@
         "romaji": "Kiri hana o musubu"
       },
       "translations": {
-        "fr": "Le paulownia noue ses fruits"
+        "fr": "Les paulownias produisent leurs premières graines"
       },
       "sekki": {
         "id": "taisho",
@@ -735,7 +735,7 @@
         "romaji": "Tsuchi uruōte mushi atsushi"
       },
       "translations": {
-        "fr": "La terre moite étouffe de chaleur"
+        "fr": "La terre devient moite, l’air s’humidifie"
       },
       "sekki": {
         "id": "taisho",
@@ -753,7 +753,7 @@
         "romaji": "Taiu tokidoki furu"
       },
       "translations": {
-        "fr": "De fortes pluies par moments"
+        "fr": "De fortent pluies se mettent parfois à tomber"
       },
       "sekki": {
         "id": "taisho",
@@ -789,7 +789,7 @@
         "romaji": "Higurashi naku"
       },
       "translations": {
-        "fr": "Chant des cigales d'automne"
+        "fr": "Les cigales nocturnes se remettent à chanter"
       },
       "sekki": {
         "id": "risshu",
@@ -807,7 +807,7 @@
         "romaji": "Fukakiri shōkō su"
       },
       "translations": {
-        "fr": "Épaisses brumes qui montent et descendent"
+        "fr": "Le brouillard épais descend"
       },
       "sekki": {
         "id": "risshu",
@@ -825,7 +825,7 @@
         "romaji": "Wata no hana shibe hiraku"
       },
       "translations": {
-        "fr": "Les capsules du coton s'ouvrent"
+        "fr": "Les fleurs de coton fleurissent"
       },
       "sekki": {
         "id": "shosho",
@@ -843,7 +843,7 @@
         "romaji": "Tenchi hajimete samushi"
       },
       "translations": {
-        "fr": "La chaleur se retire"
+        "fr": "La chaleur commence à s’atténuer"
       },
       "sekki": {
         "id": "shosho",
@@ -897,7 +897,7 @@
         "romaji": "Sekirei naku"
       },
       "translations": {
-        "fr": "Les bergeronnettes chantent"
+        "fr": "Les bergeronnettes se remettent à chanter"
       },
       "sekki": {
         "id": "hakuro",
@@ -933,7 +933,7 @@
         "romaji": "Kaminari koe o osamu"
       },
       "translations": {
-        "fr": "Le tonnerre se retire"
+        "fr": "Le tonnerre cesse de gronder"
       },
       "sekki": {
         "id": "shubun",
@@ -951,7 +951,7 @@
         "romaji": "Mushi kakure to o fusagu"
       },
       "translations": {
-        "fr": "Les insectes ferment leurs portes"
+        "fr": "Les insectes se terrent dans le sol"
       },
       "sekki": {
         "id": "shubun",
@@ -987,7 +987,7 @@
         "romaji": "Kōgan kitaru"
       },
       "translations": {
-        "fr": "Arrivée des oies sauvages"
+        "fr": "Les oies sauvages sont de retour"
       },
       "sekki": {
         "id": "kanro",
@@ -1005,7 +1005,7 @@
         "romaji": "Kiku no hana hiraku"
       },
       "translations": {
-        "fr": "Les chrysanthèmes s'ouvrent"
+        "fr": "Les chrysanthèmes fleurissent"
       },
       "sekki": {
         "id": "kanro",
@@ -1023,7 +1023,7 @@
         "romaji": "Kirigirisu to ni ari"
       },
       "translations": {
-        "fr": "Les grillons chantent au seuil"
+        "fr": "Les grillons chantent au pas des portes"
       },
       "sekki": {
         "id": "kanro",
@@ -1041,7 +1041,7 @@
         "romaji": "Shimo hajimete furu"
       },
       "translations": {
-        "fr": "Première gelée"
+        "fr": "Les premières gelées apparaissent"
       },
       "sekki": {
         "id": "soko",
@@ -1051,15 +1051,15 @@
       }
     },
     {
-      "id": "shigure-tokidoki-furu",
+      "id": "kosame-tokidoki-furu",
       "month": 10,
       "day": 28,
       "japanese": {
         "kanji": "霎時施",
-        "romaji": "Shigure tokidoki furu"
+        "romaji": "Kosame tokidoki furu"
       },
       "translations": {
-        "fr": "Averses passagères"
+        "fr": "Des bruines se mettent à tomber."
       },
       "sekki": {
         "id": "soko",
@@ -1077,7 +1077,7 @@
         "romaji": "Momiji tsuta kibamu"
       },
       "translations": {
-        "fr": "Érables et lierres jaunissent"
+        "fr": "Les feuilles d’érables jaunissent"
       },
       "sekki": {
         "id": "soko",
@@ -1095,7 +1095,7 @@
         "romaji": "Tsubaki hajimete hiraku"
       },
       "translations": {
-        "fr": "Les camélias s'ouvrent"
+        "fr": "Les premiers camélias fleurissent"
       },
       "sekki": {
         "id": "ritto",
@@ -1131,7 +1131,7 @@
         "romaji": "Kinsenka kaoru"
       },
       "translations": {
-        "fr": "Les narcisses embaument"
+        "fr": "Les jonquilles fleurissent"
       },
       "sekki": {
         "id": "ritto",
@@ -1167,7 +1167,7 @@
         "romaji": "Kitakaze konoha o harau"
       },
       "translations": {
-        "fr": "Le vent du nord balaie les feuilles"
+        "fr": "Le vent du nord balaie les feuilles des arbres"
       },
       "sekki": {
         "id": "shosetsu",
@@ -1185,7 +1185,7 @@
         "romaji": "Tachibana hajimete kibamu"
       },
       "translations": {
-        "fr": "Les feuilles de citrus jaunissent"
+        "fr": "Les feuilles de mandarinier jaunissent"
       },
       "sekki": {
         "id": "shosetsu",
@@ -1203,7 +1203,7 @@
         "romaji": "Heisoku narite fuyu to naru"
       },
       "translations": {
-        "fr": "L'horizon se ferme : c'est l'hiver"
+        "fr": "Le froid arrive, l’hiver commence"
       },
       "sekki": {
         "id": "taisetsu",
@@ -1239,7 +1239,7 @@
         "romaji": "Sake no uo muragaru"
       },
       "translations": {
-        "fr": "Les saumons remontent en bancs"
+        "fr": "Les saumons se regroupent en bancs"
       },
       "sekki": {
         "id": "taisetsu",
@@ -1275,7 +1275,7 @@
         "romaji": "Mishika no tsuno oru"
       },
       "translations": {
-        "fr": "Les cervidés perdent leurs bois"
+        "fr": "Les cerfs perdent leurs bois"
       },
       "sekki": {
         "id": "toji",
