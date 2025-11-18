@@ -348,6 +348,81 @@ app.get('/api/admin/notifications', (req, res) => {
   });
 });
 
+// Route pour forcer l'envoi de la notification de la micro-saison actuelle
+app.post('/api/admin/force-send-notification', async (req, res) => {
+  try {
+    // Charger les données des micro-saisons
+    const microSeasonsData = loadMicroSeasons();
+    const now = new Date();
+    const currentSeason = getCurrentMicroSeason(now, microSeasonsData.microSeasons);
+    const seasonDate = `${currentSeason.month}-${currentSeason.day}`;
+    
+    // Supprimer l'entrée dans sent_notifications si elle existe (pour permettre le ré-envoi)
+    db.run('DELETE FROM sent_notifications WHERE season_id = ? AND season_date = ?', 
+           [currentSeason.id, seasonDate], (err) => {
+      if (err) {
+        console.error('Erreur suppression notification:', err);
+      }
+    });
+    
+    // Préparer le message
+    const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
+    
+    // Récupérer tous les abonnés actifs
+    db.all('SELECT phone_number FROM subscribers WHERE active = 1', [], async (err, rows) => {
+      if (err) {
+        console.error('Erreur récupération abonnés:', err);
+        return res.status(500).json({ error: 'Erreur serveur' });
+      }
+      
+      if (rows.length === 0) {
+        return res.json({ success: true, message: 'Aucun abonné actif', sent: 0 });
+      }
+      
+      console.log(`📤 Envoi forcé de ${rows.length} SMS pour ${currentSeason.japanese.romaji}...`);
+      
+      let successCount = 0;
+      let errorCount = 0;
+      
+      for (const row of rows) {
+        try {
+          await sendSMS(row.phone_number, message);
+          successCount++;
+          // Petite pause entre les envois pour éviter les limites de taux
+          await new Promise(resolve => setTimeout(resolve, 100));
+        } catch (error) {
+          console.error(`Erreur envoi à ${row.phone_number}:`, error.message);
+          errorCount++;
+        }
+      }
+      
+      // Enregistrer que les SMS ont été envoyés pour cette micro-saison
+      if (successCount > 0) {
+        db.run('INSERT INTO sent_notifications (season_id, season_date) VALUES (?, ?)', 
+               [currentSeason.id, seasonDate], function(err) {
+          if (err) {
+            console.error('Erreur enregistrement notification:', err);
+          } else {
+            console.log(`✅ ${successCount} SMS envoyés pour ${currentSeason.japanese.romaji}`);
+          }
+        });
+      }
+      
+      res.json({ 
+        success: true, 
+        message: `Envoi terminé : ${successCount} SMS envoyés, ${errorCount} erreurs`,
+        season: currentSeason.japanese.romaji,
+        sent: successCount,
+        errors: errorCount
+      });
+    });
+    
+  } catch (error) {
+    console.error('Erreur envoi forcé:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
 // Route pour envoyer des alertes SMS (utilisée par le monitoring)
 app.post('/api/alert', async (req, res) => {
   try {
