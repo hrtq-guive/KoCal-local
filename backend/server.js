@@ -7,6 +7,9 @@ const crypto = require('crypto');
 const path = require('path');
 require('dotenv').config();
 
+// Toutes les dates et heures du serveur sont en heure de Paris (le VPS est en UTC)
+process.env.TZ = 'Europe/Paris';
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -236,8 +239,8 @@ function dbAll(sql, params = []) {
   });
 }
 
-// Heure locale à partir de laquelle on envoie les SMS
-const SEND_HOUR = 8;
+// Heure (Paris) à partir de laquelle on envoie les SMS
+const SEND_HOUR = 7;
 // Fenêtre de rattrapage : si le serveur était arrêté le jour J, on envoie quand même
 // dans les jours suivants (mais pas au-delà, pour ne pas envoyer une vieille saison)
 const CATCH_UP_DAYS = 2;

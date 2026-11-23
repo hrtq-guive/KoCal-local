@@ -7,7 +7,7 @@ Remplace le VPS Scaleway (Nginx + Node + SQLite + Certbot) par :
 | Site (`index.html`, `admin.html`, `scripts/app.js`, `data/`) | Workers Static Assets |
 | API `/api/*` | Worker (`src/index.js`) |
 | Base de données | D1 (SQLite managé, même schéma) |
-| SMS de micro-saison | Cron Trigger toutes les heures, envoi une fois par saison dès 8h (heure de Paris), rattrapage jusqu'à 2 jours |
+| SMS de micro-saison | Cron Trigger toutes les heures, envoi une fois par saison dès 7h (heure de Paris), rattrapage jusqu'à 2 jours |
 | SMS | API REST Twilio |
 | HTTPS | Automatique |
 

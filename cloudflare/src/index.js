@@ -4,7 +4,7 @@ import microSeasonsData from '../../data/micro-seasons.json';
 
 const TIME_ZONE = 'Europe/Paris';
 // Heure (Paris) à partir de laquelle on envoie le SMS le jour d'ouverture d'une saison
-const SEND_HOUR = 8;
+const SEND_HOUR = 7;
 // Rattrapage si un envoi a été manqué, mais jamais pour une saison trop ancienne
 const CATCH_UP_DAYS = 2;
 const DAY_MS = 24 * 60 * 60 * 1000;
