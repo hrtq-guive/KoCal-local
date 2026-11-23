@@ -14,7 +14,8 @@ NC='\033[0m' # No Color
 # Configuration
 LOG_FILE="./logs/kocal-health.log"
 ALERT_EMAIL="kevin.echraghi@heretique.fr"
-ALERT_SMS="+33627252432"
+# Mot de passe admin lu dans backend/.env (requis par /api/alert)
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-$(grep -E '^ADMIN_PASSWORD=' "$(dirname "$0")/../backend/.env" 2>/dev/null | cut -d= -f2-)}"
 API_URL="http://localhost:3001/api/health"
 SERVICE_NAME="kocal-backend"
 
@@ -63,10 +64,12 @@ send_critical_alert() {
     fi
     
     # Envoyer par SMS via l'API existante
-    if [ -n "$ALERT_SMS" ] && curl -s --max-time 10 "$API_URL" >/dev/null 2>&1; then
+    # (le destinataire est ALERT_PHONE_NUMBER dans backend/.env)
+    if [ -n "$ADMIN_PASSWORD" ] && curl -s --max-time 10 "$API_URL" >/dev/null 2>&1; then
         curl -X POST http://localhost:3001/api/alert \
           -H "Content-Type: application/json" \
-          -d "{\"phoneNumber\":\"$ALERT_SMS\",\"message\":\"$message\"}" \
+          -H "Authorization: Bearer $ADMIN_PASSWORD" \
+          -d "{\"message\":\"$message\"}" \
           >/dev/null 2>&1 || true
     fi
     

@@ -91,7 +91,7 @@ fi
 
 # Étape 4: Envoyer le SMS
 log "📱 Étape 4: Envoi du SMS..."
-RESPONSE=$(ssh "$VPS_USER@$VPS_HOST" "curl -s -X POST http://localhost:3001/api/admin/force-send-notification")
+RESPONSE=$(ssh "$VPS_USER@$VPS_HOST" "cd $PROJECT_DIR/backend && curl -s -X POST -H \"Authorization: Bearer \$(grep -E '^ADMIN_PASSWORD=' .env | cut -d= -f2-)\" http://localhost:3001/api/admin/force-send-notification")
 
 # Afficher le résultat
 echo ""

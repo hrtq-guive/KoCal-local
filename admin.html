@@ -91,7 +91,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
 
     <div class="actions">
       <button class="btn" onclick="loadSubscribers()">🔄 Actualiser</button>
-      <button class="btn btn-success" onclick="sendTestNotification()">📱 Envoyer test</button>
+      <button class="btn btn-success" onclick="sendTestNotification()">📱 Renvoyer le SMS de la saison</button>
       <button class="btn btn-danger" onclick="deleteAllSubscribers()">🗑️ Supprimer tous</button>
     </div>
 
@@ -114,28 +114,53 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
   <script>
     // Variables globales
     let subscribers = [];
-    const ADMIN_PASSWORD = 'Heretique!2020';
+    // Le mot de passe n'est plus dans la page : il est envoyé au serveur, qui le vérifie.
+    let adminPassword = '';
+
+    function adminFetch(url, options = {}) {
+      options.headers = Object.assign({}, options.headers, {
+        'Authorization': 'Bearer ' + adminPassword
+      });
+      return fetch(url, options);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
 
     // Fonctions d'authentification
-    function login(event) {
+    async function login(event) {
       event.preventDefault();
-      const password = document.getElementById('password').value;
       const errorEl = document.getElementById('loginError');
-      
-      if (password === ADMIN_PASSWORD) {
+      adminPassword = document.getElementById('password').value;
+
+      let response;
+      try {
+        response = await adminFetch('/api/admin/subscribers');
+      } catch (error) {
+        response = null;
+      }
+
+      if (response && response.ok) {
         // Connexion réussie
+        errorEl.style.display = 'none';
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('adminInterface').style.display = 'block';
         loadSubscribers();
       } else {
-        // Mot de passe incorrect
-        errorEl.textContent = 'Mot de passe incorrect';
+        adminPassword = '';
+        errorEl.textContent = response && response.status === 401
+          ? 'Mot de passe incorrect'
+          : 'Connexion au serveur impossible';
         errorEl.style.display = 'block';
         document.getElementById('password').value = '';
       }
     }
 
     function logout() {
+      adminPassword = '';
       document.getElementById('loginForm').style.display = 'block';
       document.getElementById('adminInterface').style.display = 'none';
       document.getElementById('password').value = '';
@@ -165,7 +190,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
     // Charger les abonnés
     async function loadSubscribers() {
       try {
-        const response = await fetch('/api/admin/subscribers');
+        const response = await adminFetch('/api/admin/subscribers');
         const data = await response.json();
         
         if (data.subscribers) {
@@ -193,7 +218,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
 
       container.innerHTML = subscribers.map(sub => `
         <div class="subscriber-row">
-          <div class="phone">${sub.phone_number}</div>
+          <div class="phone">${escapeHtml(sub.phone_number)}</div>
           <div class="date">${formatDate(sub.created_at)}</div>
           <div>
             <span class="status ${sub.active ? 'status-active' : 'status-inactive'}">
@@ -201,7 +226,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
             </span>
           </div>
           <div>
-            <button class="delete-btn" onclick="deleteSubscriber(${sub.id})">
+            <button class="delete-btn" onclick="deleteSubscriber(${Number(sub.id)})">
               Supprimer
             </button>
           </div>
@@ -227,7 +252,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
       }
 
       try {
-        const response = await fetch(`/api/admin/subscribers/${id}`, {
+        const response = await adminFetch(`/api/admin/subscribers/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -251,7 +276,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
       }
 
       try {
-        const response = await fetch('/api/admin/subscribers', {
+        const response = await adminFetch('/api/admin/subscribers', {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -270,14 +295,17 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
 
     // Envoyer une notification de test
     async function sendTestNotification() {
+      if (!confirm('Renvoyer le SMS de la micro-saison actuelle à TOUS les abonnés actifs ?')) {
+        return;
+      }
       try {
-        const response = await fetch('/api/test-notification', {
+        const response = await adminFetch('/api/admin/force-send-notification', {
           method: 'POST'
         });
         const data = await response.json();
 
         if (data.success) {
-          showMessage('Notification de test envoyée à tous les abonnés');
+          showMessage(data.message || 'SMS envoyés');
         } else {
           throw new Error(data.error || 'Erreur d\'envoi');
         }

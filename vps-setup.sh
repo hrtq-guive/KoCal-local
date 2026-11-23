@@ -57,6 +57,11 @@ server {
     listen 80;
     server_name _;
     
+    # Ne jamais servir le code serveur, la base, les secrets ni les scripts
+    location ~ ^/(backend|scripts/.*\.sh|\.git)(/|\$) { return 404; }
+    location ~ /\. { return 404; }
+    location ~ \.(db|md|sh|env)\$ { return 404; }
+
     # Frontend
     location / {
         root $PROJECT_DIR;

@@ -3,6 +3,7 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const twilio = require('twilio');
 const fs = require('fs');
+const crypto = require('crypto');
 const path = require('path');
 require('dotenv').config();
 
@@ -13,8 +14,33 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Protection des routes d'administration : mot de passe vérifié côté serveur
+// (ADMIN_PASSWORD dans backend/.env, jamais dans le code du site)
+function requireAdmin(req, res, next) {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) {
+    return res.status(503).json({ error: 'Administration désactivée (ADMIN_PASSWORD non configuré)' });
+  }
+  const header = req.get('authorization') || '';
+  const given = header.startsWith('Bearer ') ? header.slice(7) : '';
+  const a = crypto.createHash('sha256').update(given).digest();
+  const b = crypto.createHash('sha256').update(expected).digest();
+  if (!given || !crypto.timingSafeEqual(a, b)) {
+    return res.status(401).json({ error: 'Non autorisé' });
+  }
+  next();
+}
+app.use('/api/admin', requireAdmin);
+app.use('/api/alert', requireAdmin);
+
 // Servir les fichiers statiques du frontend
-app.use(express.static('../'));
+// Seulement les fichiers publics (jamais backend/, .env, la base de données ou les .md)
+const publicRoot = path.join(__dirname, '..');
+app.get(['/', '/index.html', '/admin.html'], (req, res) => {
+  res.sendFile(req.path === '/admin.html' ? 'admin.html' : 'index.html', { root: publicRoot });
+});
+app.use('/scripts/app.js', (req, res) => res.sendFile('scripts/app.js', { root: publicRoot }));
+app.use('/data', express.static(path.join(publicRoot, 'data')));
 
 // Configuration Twilio (mode développement si pas configuré)
 let client = null;
@@ -74,6 +100,9 @@ app.post('/api/subscribe', async (req, res) => {
 
     // Normaliser le numéro (format international)
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
+    if (!isValidPhone(normalizedPhone)) {
+      return res.status(400).json({ error: 'Numéro de téléphone invalide' });
+    }
     
     // Vérifier si déjà abonné
     db.get('SELECT * FROM subscribers WHERE phone_number = ?', [normalizedPhone], (err, row) => {
@@ -122,6 +151,9 @@ app.post('/api/subscribe', async (req, res) => {
 app.post('/api/unsubscribe', async (req, res) => {
   try {
     const { phoneNumber } = req.body;
+    if (!phoneNumber) {
+      return res.status(400).json({ error: 'Numéro de téléphone requis' });
+    }
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
     
     db.run('UPDATE subscribers SET active = 0 WHERE phone_number = ?', [normalizedPhone], function(err) {
@@ -139,8 +171,14 @@ app.post('/api/unsubscribe', async (req, res) => {
   }
 });
 
+// Format international E.164 : + suivi de 8 à 15 chiffres
+function isValidPhone(phone) {
+  return /^\+[1-9]\d{7,14}$/.test(phone);
+}
+
 // Fonction pour normaliser le numéro de téléphone
 function normalizePhoneNumber(phone) {
+  phone = String(phone || '');
   // Supprimer tous les espaces et caractères spéciaux
   let cleaned = phone.replace(/[\s\-\(\)]/g, '');
   
@@ -441,17 +479,22 @@ app.post('/api/admin/force-send-notification', async (req, res) => {
   }
 });
 
-// Route pour envoyer des alertes SMS (utilisée par le monitoring)
+// Route pour envoyer des alertes SMS (utilisée par le monitoring, protégée par ADMIN_PASSWORD)
+// Le destinataire est fixé par ALERT_PHONE_NUMBER : la route ne peut pas écrire à n'importe qui.
 app.post('/api/alert', async (req, res) => {
   try {
-    const { phoneNumber, message } = req.body;
-    
-    if (!phoneNumber || !message) {
-      return res.status(400).json({ error: 'Numéro de téléphone et message requis' });
+    const { message } = req.body;
+    const alertPhone = process.env.ALERT_PHONE_NUMBER;
+
+    if (!message) {
+      return res.status(400).json({ error: 'Message requis' });
+    }
+    if (!alertPhone) {
+      return res.status(503).json({ error: 'ALERT_PHONE_NUMBER non configuré' });
     }
 
-    const normalizedPhone = normalizePhoneNumber(phoneNumber);
-    const alertMessage = `🚨 KoCal Alert: ${message}`;
+    const normalizedPhone = normalizePhoneNumber(alertPhone);
+    const alertMessage = `🚨 KoCal Alert: ${String(message).slice(0, 300)}`;
     
     await sendSMS(normalizedPhone, alertMessage);
     console.log(`Alerte SMS envoyée à ${normalizedPhone}: ${message}`);
