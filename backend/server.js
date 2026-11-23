@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const twilio = require('twilio');
-const cron = require('node-cron');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
@@ -180,80 +179,98 @@ async function sendSMS(phoneNumber, message) {
   }
 }
 
-// Fonction pour vérifier le changement de micro-saison
+// Helpers SQLite en promesses
+function dbRun(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function(err) {
+      if (err) reject(err); else resolve(this);
+    });
+  });
+}
+
+function dbAll(sql, params = []) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, params, (err, rows) => {
+      if (err) reject(err); else resolve(rows);
+    });
+  });
+}
+
+// Heure locale à partir de laquelle on envoie les SMS
+const SEND_HOUR = 8;
+// Fenêtre de rattrapage : si le serveur était arrêté le jour J, on envoie quand même
+// dans les jours suivants (mais pas au-delà, pour ne pas envoyer une vieille saison)
+const CATCH_UP_DAYS = 2;
+
+let checkInProgress = false;
+
+// Fonction pour vérifier le changement de micro-saison.
+// Appelée régulièrement : elle envoie les SMS une seule fois par micro-saison,
+// dès qu'il est SEND_HOUR passé, et rattrape un envoi manqué (serveur arrêté, etc.).
 async function checkMicroSeasonChange() {
+  if (checkInProgress) return;
+  checkInProgress = true;
+
   try {
     // Charger les données des micro-saisons (rechargement dynamique)
     const microSeasonsData = loadMicroSeasons();
-    
-    // Logique pour déterminer la micro-saison actuelle
+
     const now = new Date();
     const currentSeason = getCurrentMicroSeason(now, microSeasonsData.microSeasons);
-    
-    // Vérifier si c'est le premier jour de cette micro-saison
-    const seasonStartDate = new Date(now.getFullYear(), currentSeason.month - 1, currentSeason.day);
-    const isFirstDay = now.getDate() === seasonStartDate.getDate() && 
-                      now.getMonth() === seasonStartDate.getMonth();
-    
-    if (!isFirstDay) {
-      console.log(`Pas le premier jour de ${currentSeason.japanese.romaji} (${currentSeason.month}/${currentSeason.day}), pas d'envoi de SMS`);
+
+    // Date de début de la saison actuelle (peut être l'année précédente début janvier)
+    let seasonStart = new Date(now.getFullYear(), currentSeason.month - 1, currentSeason.day);
+    if (seasonStart > now) {
+      seasonStart = new Date(now.getFullYear() - 1, currentSeason.month - 1, currentSeason.day);
+    }
+    const sendFrom = new Date(seasonStart);
+    sendFrom.setHours(SEND_HOUR, 0, 0, 0);
+    const sendUntil = new Date(seasonStart);
+    sendUntil.setDate(sendUntil.getDate() + CATCH_UP_DAYS + 1);
+
+    if (now < sendFrom || now >= sendUntil) {
       return;
     }
-    
-    // Vérifier si on a déjà envoyé un SMS pour cette micro-saison
+
+    // Réserver l'envoi de façon atomique (évite les doublons si deux vérifications se chevauchent)
     const seasonDate = `${currentSeason.month}-${currentSeason.day}`;
-    db.get('SELECT * FROM sent_notifications WHERE season_id = ? AND season_date = ?', 
-           [currentSeason.id, seasonDate], async (err, row) => {
-      if (err) {
-        console.error('Erreur vérification notification:', err);
-        return;
+    const claim = await dbRun(
+      'INSERT OR IGNORE INTO sent_notifications (season_id, season_date) VALUES (?, ?)',
+      [currentSeason.id, seasonDate]
+    );
+    if (claim.changes === 0) {
+      return; // Déjà envoyé pour cette micro-saison
+    }
+
+    const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
+    const rows = await dbAll('SELECT phone_number FROM subscribers WHERE active = 1');
+
+    console.log(`Envoi de ${rows.length} SMS pour ${currentSeason.japanese.romaji}...`);
+
+    let successCount = 0;
+    for (const row of rows) {
+      try {
+        await sendSMS(row.phone_number, message);
+        successCount++;
+        // Petite pause entre les envois pour éviter les limites de taux
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error(`Erreur envoi à ${row.phone_number}:`, error.message);
       }
-      
-      if (row) {
-        console.log(`SMS déjà envoyé pour ${currentSeason.japanese.romaji} (${seasonDate})`);
-        return;
-      }
-      
-      // Envoyer les SMS
-      const message = `Aujourd'hui s'ouvre ${currentSeason.japanese.romaji}, la saison pendant laquelle ${currentSeason.translations.fr}. koyomi.heretique.fr`;
-      
-      // Récupérer tous les abonnés actifs
-      db.all('SELECT phone_number FROM subscribers WHERE active = 1', [], async (err, rows) => {
-        if (err) {
-          console.error('Erreur récupération abonnés:', err);
-          return;
-        }
-        
-        console.log(`Envoi de ${rows.length} SMS pour ${currentSeason.japanese.romaji}...`);
-        
-        let successCount = 0;
-        for (const row of rows) {
-          try {
-            await sendSMS(row.phone_number, message);
-            successCount++;
-            // Petite pause entre les envois pour éviter les limites de taux
-            await new Promise(resolve => setTimeout(resolve, 100));
-          } catch (error) {
-            console.error(`Erreur envoi à ${row.phone_number}:`, error.message);
-          }
-        }
-        
-        // Enregistrer que les SMS ont été envoyés pour cette micro-saison
-        if (successCount > 0) {
-          db.run('INSERT INTO sent_notifications (season_id, season_date) VALUES (?, ?)', 
-                 [currentSeason.id, seasonDate], function(err) {
-            if (err) {
-              console.error('Erreur enregistrement notification:', err);
-            } else {
-              console.log(`✅ ${successCount} SMS envoyés pour ${currentSeason.japanese.romaji}`);
-            }
-          });
-        }
-      });
-    });
-    
+    }
+
+    if (rows.length > 0 && successCount === 0) {
+      // Tout a échoué (ex : problème Twilio) : on libère la réservation pour réessayer plus tard
+      await dbRun('DELETE FROM sent_notifications WHERE season_id = ? AND season_date = ?',
+                  [currentSeason.id, seasonDate]);
+      console.error(`❌ Aucun SMS envoyé pour ${currentSeason.japanese.romaji}, nouvel essai à la prochaine vérification`);
+    } else {
+      console.log(`✅ ${successCount}/${rows.length} SMS envoyés pour ${currentSeason.japanese.romaji}`);
+    }
   } catch (error) {
     console.error('Erreur vérification micro-saison:', error);
+  } finally {
+    checkInProgress = false;
   }
 }
 
@@ -291,11 +308,12 @@ function getCurrentMicroSeason(now, microSeasons) {
   return current.season;
 }
 
-// Cron job pour vérifier les changements de micro-saison (tous les jours à 8h)
-cron.schedule('0 8 * * *', () => {
-  console.log('Vérification des changements de micro-saison...');
-  checkMicroSeasonChange();
-});
+// Vérification des changements de micro-saison toutes les 10 minutes (et au démarrage).
+// On n'utilise plus un cron unique à 8h00 : node-cron v4 saute silencieusement
+// l'exécution si son minuteur se déclenche ne serait-ce qu'une seconde en retard,
+// et un redémarrage du serveur à ce moment-là faisait aussi rater l'envoi.
+setInterval(checkMicroSeasonChange, 10 * 60 * 1000);
+setTimeout(checkMicroSeasonChange, 5000);
 
 
 // Route de santé
