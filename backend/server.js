@@ -271,7 +271,8 @@ async function checkMicroSeasonChange() {
     }
 
     // Réserver l'envoi de façon atomique (évite les doublons si deux vérifications se chevauchent)
-    const seasonDate = `${currentSeason.month}-${currentSeason.day}`;
+    // La clé contient l'année : sans elle, l'envoi de l'an dernier bloquait celui de cette année
+    const seasonDate = `${seasonStart.getFullYear()}-${currentSeason.month}-${currentSeason.day}`;
     const claim = await dbRun(
       'INSERT OR IGNORE INTO sent_notifications (season_id, season_date) VALUES (?, ?)',
       [currentSeason.id, seasonDate]
@@ -411,7 +412,9 @@ app.post('/api/admin/force-send-notification', async (req, res) => {
     const microSeasonsData = loadMicroSeasons();
     const now = new Date();
     const currentSeason = getCurrentMicroSeason(now, microSeasonsData.microSeasons);
-    const seasonDate = `${currentSeason.month}-${currentSeason.day}`;
+    let startYear = now.getFullYear();
+    if (new Date(startYear, currentSeason.month - 1, currentSeason.day) > now) startYear--;
+    const seasonDate = `${startYear}-${currentSeason.month}-${currentSeason.day}`;
     
     // Supprimer l'entrée dans sent_notifications si elle existe (pour permettre le ré-envoi)
     db.run('DELETE FROM sent_notifications WHERE season_id = ? AND season_date = ?', 

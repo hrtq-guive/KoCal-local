@@ -131,7 +131,8 @@ export async function checkMicroSeasonChange(env, now = new Date()) {
   }
 
   // Réservation atomique : une seule exécution peut envoyer pour cette saison
-  const seasonDate = `${season.month}-${season.day}`;
+  // La clé contient l'année : sans elle, l'envoi de l'an dernier bloquerait celui de cette année
+  const seasonDate = `${new Date(start).getUTCFullYear()}-${season.month}-${season.day}`;
   const claim = await env.DB.prepare(
     'INSERT OR IGNORE INTO sent_notifications (season_id, season_date) VALUES (?, ?)'
   ).bind(season.id, seasonDate).run();
@@ -212,8 +213,8 @@ async function handleAdmin(request, env, path) {
     return json({ notifications: results });
   }
   if (path === '/api/admin/force-send-notification' && method === 'POST') {
-    const { season } = getCurrentMicroSeason(parisWallClock());
-    const seasonDate = `${season.month}-${season.day}`;
+    const { season, start } = getCurrentMicroSeason(parisWallClock());
+    const seasonDate = `${new Date(start).getUTCFullYear()}-${season.month}-${season.day}`;
     const result = await sendToAllActive(env, seasonMessage(season));
     if (result.sent > 0) {
       await env.DB.prepare('INSERT OR IGNORE INTO sent_notifications (season_id, season_date) VALUES (?, ?)')
