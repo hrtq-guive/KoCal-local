@@ -1,0 +1,29 @@
+name = "kocal"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# Site statique (index.html, admin.html, scripts/app.js, data/) copié dans public/ par build.mjs.
+# Les requêtes /api/* passent d'abord par le Worker.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+
+[build]
+command = "node build.mjs"
+
+# Base de données D1 (SQLite managé). Remplacer database_id après `npx wrangler d1 create kocal`.
+[[d1_databases]]
+binding = "DB"
+database_name = "kocal"
+database_id = "REMPLACER-PAR-L-ID-DONNE-PAR-WRANGLER"
+
+# Vérification toutes les heures : l'envoi a lieu une seule fois par saison, dès 8h (Paris).
+[triggers]
+crons = ["0 * * * *"]
+
+[vars]
+TWILIO_PHONE_NUMBER = "+33600000000"
+ALERT_PHONE_NUMBER = ""
+# Secrets (à définir avec `npx wrangler secret put NOM`, jamais dans ce fichier) :
+#   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ADMIN_PASSWORD
