@@ -173,6 +173,8 @@ app.post('/api/unsubscribe', async (req, res) => {
 
 // Format international E.164 : + suivi de 8 à 15 chiffres
 function isValidPhone(phone) {
+  // France : exactement 9 chiffres après +33 (ex : +33612345678)
+  if (phone.startsWith('+33')) return /^\+33[1-9]\d{8}$/.test(phone);
   return /^\+[1-9]\d{7,14}$/.test(phone);
 }
 

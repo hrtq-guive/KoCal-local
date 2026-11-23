@@ -56,6 +56,8 @@ function normalizePhoneNumber(phone) {
 }
 
 function isValidPhone(phone) {
+  // France : exactement 9 chiffres après +33 (ex : +33612345678)
+  if (phone.startsWith('+33')) return /^\+33[1-9]\d{8}$/.test(phone);
   return /^\+[1-9]\d{7,14}$/.test(phone);
 }
 
