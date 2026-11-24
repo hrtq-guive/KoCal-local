@@ -1,0 +1,19 @@
+# Site statique KoCal sur Netlify. L'API (/api/*) reste sur le Worker Cloudflare.
+[build]
+  # Copie uniquement les fichiers publics (index.html, admin.html, scripts/app.js, data/)
+  command = "node cloudflare/build.mjs"
+  publish = "cloudflare/public"
+
+# Inscriptions, désinscriptions et admin : transférés au Worker Cloudflare
+[[redirects]]
+  from = "/api/*"
+  to = "https://kocal.kevin-echraghi.workers.dev/api/:splat"
+  status = 200
+  force = true
+
+# La page admin ne doit pas être indexée ni mise en cache
+[[headers]]
+  for = "/admin.html"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+    Cache-Control = "no-store"
