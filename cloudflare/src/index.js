@@ -1,5 +1,5 @@
 // KoCal sur Cloudflare : API d'inscription + envoi des SMS de micro-saison (Cron Trigger).
-// Remplace backend/server.js (VPS). Base de données : D1 (binding DB). SMS : API REST Twilio.
+// Le site (pages) est sur Netlify, qui transfère /api/* ici. Base : D1 (binding DB). SMS : API REST Twilio.
 import microSeasonsData from '../../data/micro-seasons.json';
 
 const TIME_ZONE = 'Europe/Paris';
@@ -248,13 +248,13 @@ export default {
       if (path === '/api/subscribe' && request.method === 'POST') return await subscribe(request, env, ctx);
       if (path === '/api/unsubscribe' && request.method === 'POST') return await unsubscribe(request, env);
       if (path.startsWith('/api/admin')) return await handleAdmin(request, env, path);
-      if (path.startsWith('/api/')) return json({ error: 'Route inconnue' }, 404);
     } catch (error) {
       console.error('Erreur API:', error);
       return json({ error: 'Erreur serveur' }, 500);
     }
 
-    return env.ASSETS.fetch(request);
+    // Le site lui-même est sur Netlify : ce Worker ne sert que l'API
+    return json({ error: 'Route inconnue' }, 404);
   },
 
   async scheduled(controller, env, ctx) {

@@ -2,15 +2,8 @@ name = "kocal"
 main = "src/index.js"
 compatibility_date = "2026-11-01"
 
-# Site statique (index.html, admin.html, scripts/app.js, data/) copié dans public/ par build.mjs.
-# Les requêtes /api/* passent d'abord par le Worker.
-[assets]
-directory = "./public"
-binding = "ASSETS"
-run_worker_first = ["/api/*"]
-
-[build]
-command = "node build.mjs"
+# Worker « moteur » de KoCal : API (/api/*), base D1 et envoi des SMS.
+# Le site (pages) est publié par Netlify, qui transfère /api/* ici (voir netlify.toml).
 
 # Base de données D1 (SQLite managé, stockée dans l'Union européenne)
 [[d1_databases]]

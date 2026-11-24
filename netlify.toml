@@ -1,8 +1,8 @@
 # Site statique KoCal sur Netlify. L'API (/api/*) reste sur le Worker Cloudflare.
 [build]
-  # Copie uniquement les fichiers publics (index.html, admin.html, scripts/app.js, data/)
-  command = "node cloudflare/build.mjs"
-  publish = "cloudflare/public"
+  # Copie uniquement les fichiers publics (index.html, admin.html, scripts/app.js, data/) dans dist/
+  command = "node build-site.mjs"
+  publish = "dist"
 
 # Inscriptions, désinscriptions et admin : transférés au Worker Cloudflare
 [[redirects]]
