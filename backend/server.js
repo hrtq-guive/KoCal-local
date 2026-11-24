@@ -240,7 +240,7 @@ function dbAll(sql, params = []) {
 }
 
 // Heure (Paris) à partir de laquelle on envoie les SMS
-const SEND_HOUR = 7;
+const SEND_HOUR = 8;
 // Fenêtre de rattrapage : si le serveur était arrêté le jour J, on envoie quand même
 // dans les jours suivants (mais pas au-delà, pour ne pas envoyer une vieille saison)
 const CATCH_UP_DAYS = 2;

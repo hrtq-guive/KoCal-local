@@ -18,7 +18,7 @@ binding = "DB"
 database_name = "kocal"
 database_id = "REMPLACER-PAR-L-ID-DONNE-PAR-WRANGLER"
 
-# Vérification toutes les heures : l'envoi a lieu une seule fois par saison, dès 7h (Paris).
+# Vérification toutes les heures : l'envoi a lieu une seule fois par saison, dès 8h (Paris).
 [triggers]
 crons = ["0 * * * *"]
 
