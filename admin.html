@@ -43,7 +43,20 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter",system-u
 .login-box input{width:100%;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:16px;margin-bottom:20px;box-sizing:border-box}
 .login-box button{width:100%;padding:12px;font-size:16px}
 @media (max-width:768px){
-  .subscriber-row{grid-template-columns:1fr;gap:10px;text-align:center}
+  /* Sur téléphone : pas de zone de défilement imbriquée, toute la page défile */
+  .subscribers-table{overflow:visible}
+  .table-content{max-height:none;overflow:visible}
+  .table-header{display:none}
+  .subscriber-row{grid-template-columns:1fr auto;gap:6px 12px;padding:12px 15px;text-align:left}
+  .subscriber-row .date{grid-column:1}
+  .subscriber-row > div:nth-child(3){grid-column:2;grid-row:2;justify-self:end}
+  .subscriber-row > div:nth-child(4){grid-column:2;grid-row:1}
+  .stats{grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+  .stat-card{padding:12px 6px}
+  .stat-number{font-size:1.5rem}
+  .stat-label{font-size:0.75rem}
+  .header{margin-bottom:20px}
+  .header h1{font-size:1.8rem}
   .actions{flex-direction:column}
   .container{padding:20px 15px}
   .login-box{padding:30px 20px}
