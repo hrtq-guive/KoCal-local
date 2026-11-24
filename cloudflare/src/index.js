@@ -78,9 +78,14 @@ async function isAdmin(request, env) {
 // ---------- SMS (Twilio) ----------
 
 async function sendSMS(env, to, body) {
-  if (!env.TWILIO_ACCOUNT_SID || !env.TWILIO_AUTH_TOKEN) {
-    console.log(`[MODE DEV] SMS simulé à ${to}: ${body}`);
-    return { sid: 'dev_' + Date.now() };
+  if (!env.TWILIO_ACCOUNT_SID || !env.TWILIO_AUTH_TOKEN || !env.TWILIO_PHONE_NUMBER) {
+    // En local uniquement (SIMULATE_SMS=1 dans .dev.vars) : SMS simulés dans les logs.
+    // En production, on refuse : sinon un envoi « simulé » serait compté comme fait.
+    if (env.SIMULATE_SMS === '1') {
+      console.log(`[MODE DEV] SMS simulé à ${to}: ${body}`);
+      return { sid: 'dev_' + Date.now() };
+    }
+    throw new Error('Twilio non configuré (secrets TWILIO_* manquants)');
   }
   const response = await fetch(
     `https://api.twilio.com/2010-04-01/Accounts/${env.TWILIO_ACCOUNT_SID}/Messages.json`,
@@ -144,8 +149,9 @@ export async function checkMicroSeasonChange(env, now = new Date()) {
 
   const result = await sendToAllActive(env, seasonMessage(season));
 
-  if (result.total > 0 && result.sent === 0) {
-    // Tout a échoué : on libère la réservation pour réessayer à la prochaine heure
+  if (result.sent === 0) {
+    // Personne n'a reçu le SMS (aucun abonné ou tout a échoué) : on libère la réservation
+    // pour réessayer à la prochaine heure
     await env.DB.prepare('DELETE FROM sent_notifications WHERE season_id = ? AND season_date = ?')
       .bind(season.id, seasonDate).run();
     console.error(`Aucun SMS envoyé pour ${season.japanese.romaji}, nouvel essai dans une heure`);

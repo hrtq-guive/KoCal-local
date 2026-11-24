@@ -12,18 +12,15 @@ run_worker_first = ["/api/*"]
 [build]
 command = "node build.mjs"
 
-# Base de données D1 (SQLite managé). Remplacer database_id après `npx wrangler d1 create kocal`.
+# Base de données D1 (SQLite managé, stockée dans l'Union européenne)
 [[d1_databases]]
 binding = "DB"
 database_name = "kocal"
-database_id = "REMPLACER-PAR-L-ID-DONNE-PAR-WRANGLER"
+database_id = "d492709e-35b7-4076-b152-ed98ebdd033c"
 
 # Vérification toutes les heures : l'envoi a lieu une seule fois par saison, dès 8h (Paris).
 [triggers]
 crons = ["0 * * * *"]
 
-[vars]
-TWILIO_PHONE_NUMBER = "+33600000000"
-ALERT_PHONE_NUMBER = ""
 # Secrets (à définir avec `npx wrangler secret put NOM`, jamais dans ce fichier) :
-#   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, ADMIN_PASSWORD
+#   TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, ADMIN_PASSWORD

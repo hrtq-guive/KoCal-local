@@ -21,14 +21,15 @@ Prérequis : un compte Cloudflare (gratuit) et Node 18+.
 cd cloudflare
 npm install
 npx wrangler login
-npx wrangler d1 create kocal          # copier le database_id affiché dans wrangler.toml
+npx wrangler d1 create kocal --jurisdiction eu   # déjà fait : database_id dans wrangler.toml
 npm run db:init                       # crée les tables dans D1
 ```
 
-Dans `wrangler.toml`, mettre le vrai `TWILIO_PHONE_NUMBER` (et `ALERT_PHONE_NUMBER` si besoin), puis les secrets :
+Puis les secrets :
 
 ```bash
 npx wrangler secret put TWILIO_ACCOUNT_SID
+npx wrangler secret put TWILIO_PHONE_NUMBER
 npx wrangler secret put TWILIO_AUTH_TOKEN
 npx wrangler secret put ADMIN_PASSWORD
 ```
@@ -76,8 +77,8 @@ Pour une protection supplémentaire, on peut mettre Cloudflare Access (gratuit) 
 ## Développement local
 
 ```bash
-printf 'ADMIN_PASSWORD=test\n' > .dev.vars
+printf 'ADMIN_PASSWORD=test\nSIMULATE_SMS=1\n' > .dev.vars
 npm run db:init:local
-npx wrangler dev --test-scheduled     # sans identifiants Twilio, les SMS sont simulés dans les logs
+npx wrangler dev --test-scheduled     # avec SIMULATE_SMS=1, les SMS sont simulés dans les logs
 curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"   # déclenche la vérification
 ```
